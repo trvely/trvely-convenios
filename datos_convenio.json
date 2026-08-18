@@ -1,0 +1,133 @@
+{
+  "actualizado": "2026-08-18",
+  "fuente_impuestos": "PROD - reglas_cnnc + reglas_cnnc_componentes (lectura read-only 2026-08-18)",
+  "fuente_tiquetes": "Corte de bancos del 2026-08-18 - mediana de las salidas vivas por destino",
+  "destinos": [
+    {
+      "codigo": "CTG",
+      "destino": "Cartagena",
+      "ambito": "nacional",
+      "impuestos": 380000,
+      "tiquete_ref": 381011,
+      "tiquete_min": 380885,
+      "tiquete_max": 435950,
+      "fechas": 830
+    },
+    {
+      "codigo": "SMR",
+      "destino": "Santa Marta",
+      "ambito": "nacional",
+      "impuestos": 380000,
+      "tiquete_ref": 404405,
+      "tiquete_min": 363518,
+      "tiquete_max": 429166,
+      "fechas": 1230
+    },
+    {
+      "codigo": "ADZ",
+      "destino": "San Andrés",
+      "ambito": "nacional",
+      "impuestos": 620000,
+      "tiquete_ref": 610995,
+      "tiquete_min": 595245,
+      "tiquete_max": 667695,
+      "fechas": 706
+    },
+    {
+      "codigo": "MDE",
+      "destino": "Medellín",
+      "ambito": "nacional",
+      "impuestos": 270000,
+      "tiquete_ref": 186204,
+      "tiquete_min": 186204,
+      "tiquete_max": 346245,
+      "fechas": 20
+    },
+    {
+      "codigo": "LET",
+      "destino": "Leticia",
+      "ambito": "nacional",
+      "impuestos": 530000,
+      "tiquete_ref": 715995,
+      "tiquete_min": 683445,
+      "tiquete_max": 715995,
+      "fechas": 104
+    },
+    {
+      "codigo": "RCH",
+      "destino": "Riohacha",
+      "ambito": "nacional",
+      "impuestos": 550000,
+      "tiquete_ref": 470085,
+      "tiquete_min": 470085,
+      "tiquete_max": 572985,
+      "fechas": 135
+    },
+    {
+      "codigo": "COV",
+      "destino": "Coveñas",
+      "ambito": "nacional",
+      "impuestos": 380000,
+      "tiquete_ref": 398286,
+      "tiquete_min": 323190,
+      "tiquete_max": 518238,
+      "fechas": 890
+    },
+    {
+      "codigo": "TLU",
+      "destino": "Tolú",
+      "ambito": "nacional",
+      "impuestos": 380000,
+      "tiquete_ref": 398286,
+      "tiquete_min": 323190,
+      "tiquete_max": 518238,
+      "fechas": 440
+    },
+    {
+      "codigo": "PUJ",
+      "destino": "Punta Cana",
+      "ambito": "internacional",
+      "impuestos": 990000,
+      "tiquete_ref": 1702761,
+      "tiquete_min": 1557893,
+      "tiquete_max": 1726525,
+      "fechas": 343
+    },
+    {
+      "codigo": "SDQ",
+      "destino": "Boca Chica / Santo Domingo",
+      "ambito": "internacional",
+      "impuestos": 902000,
+      "tiquete_ref": 1334455,
+      "tiquete_min": 1259113,
+      "tiquete_max": 1370439,
+      "fechas": 48
+    },
+    {
+      "codigo": "JDL",
+      "destino": "Juan Dolio",
+      "ambito": "internacional",
+      "impuestos": 902000,
+      "tiquete_ref": 1334455,
+      "tiquete_min": 1259113,
+      "tiquete_max": 1370439,
+      "fechas": 16
+    },
+    {
+      "codigo": "PER",
+      "destino": "Perú",
+      "ambito": "internacional",
+      "impuestos": 1800000,
+      "tiquete_ref": null,
+      "tiquete_min": null,
+      "tiquete_max": null,
+      "fechas": 0
+    }
+  ],
+  "historico": [
+    {
+      "fecha": "2026-08-18",
+      "nota": "Primera publicacion del anexo de convenios empresariales."
+    }
+  ]
+}
