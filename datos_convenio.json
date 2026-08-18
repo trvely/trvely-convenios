@@ -1,7 +1,8 @@
 {
   "actualizado": "2026-08-18",
-  "fuente_impuestos": "PROD - reglas_cnnc + reglas_cnnc_componentes (lectura read-only 2026-08-18)",
-  "fuente_tiquetes": "Corte de bancos del 2026-08-18 - mediana de las salidas vivas por destino",
+  "fuente_impuestos": "PROD · reglas_cnnc + reglas_cnnc_componentes (lectura read-only 2026-08-18)",
+  "fuente_tiquetes": "Corte de bancos del 2026-08-18 · mediana de las salidas vigentes por destino",
+  "fuente_comercial": "Comisión de la fuerza de ventas liquidada por Trvely en cada reserva · mediana por destino",
   "destinos": [
     {
       "codigo": "CTG",
@@ -11,7 +12,8 @@
       "tiquete_ref": 381011,
       "tiquete_min": 380885,
       "tiquete_max": 435950,
-      "fechas": 830
+      "comercial_ref": 160288,
+      "fechas": 860
     },
     {
       "codigo": "SMR",
@@ -21,6 +23,7 @@
       "tiquete_ref": 404405,
       "tiquete_min": 363518,
       "tiquete_max": 429166,
+      "comercial_ref": 115828,
       "fechas": 1230
     },
     {
@@ -31,7 +34,8 @@
       "tiquete_ref": 610995,
       "tiquete_min": 595245,
       "tiquete_max": 667695,
-      "fechas": 706
+      "comercial_ref": 202278,
+      "fechas": 724
     },
     {
       "codigo": "MDE",
@@ -41,6 +45,7 @@
       "tiquete_ref": 186204,
       "tiquete_min": 186204,
       "tiquete_max": 346245,
+      "comercial_ref": 126293,
       "fechas": 20
     },
     {
@@ -51,6 +56,7 @@
       "tiquete_ref": 715995,
       "tiquete_min": 683445,
       "tiquete_max": 715995,
+      "comercial_ref": 142608,
       "fechas": 104
     },
     {
@@ -61,6 +67,7 @@
       "tiquete_ref": 470085,
       "tiquete_min": 470085,
       "tiquete_max": 572985,
+      "comercial_ref": 132468,
       "fechas": 135
     },
     {
@@ -71,6 +78,7 @@
       "tiquete_ref": 398286,
       "tiquete_min": 323190,
       "tiquete_max": 518238,
+      "comercial_ref": 123173,
       "fechas": 890
     },
     {
@@ -81,6 +89,7 @@
       "tiquete_ref": 398286,
       "tiquete_min": 323190,
       "tiquete_max": 518238,
+      "comercial_ref": 173548,
       "fechas": 440
     },
     {
@@ -91,6 +100,7 @@
       "tiquete_ref": 1702761,
       "tiquete_min": 1557893,
       "tiquete_max": 1726525,
+      "comercial_ref": 570958,
       "fechas": 343
     },
     {
@@ -101,6 +111,7 @@
       "tiquete_ref": 1334455,
       "tiquete_min": 1259113,
       "tiquete_max": 1370439,
+      "comercial_ref": 275728,
       "fechas": 48
     },
     {
@@ -111,6 +122,7 @@
       "tiquete_ref": 1334455,
       "tiquete_min": 1259113,
       "tiquete_max": 1370439,
+      "comercial_ref": 276703,
       "fechas": 16
     },
     {
@@ -121,13 +133,14 @@
       "tiquete_ref": null,
       "tiquete_min": null,
       "tiquete_max": null,
+      "comercial_ref": null,
       "fechas": 0
     }
   ],
   "historico": [
     {
       "fecha": "2026-08-18",
-      "nota": "Primera publicacion del anexo de convenios empresariales."
+      "nota": "Primera publicación del anexo de convenios empresariales."
     }
   ]
 }

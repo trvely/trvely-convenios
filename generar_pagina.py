@@ -45,17 +45,18 @@ def filas(destinos, ambito):
     for d in destinos:
         if d["ambito"] != ambito:
             continue
-        nb = d["impuestos"] + (d["tiquete_ref"] or 0)
+        nb = d["impuestos"] + (d["tiquete_ref"] or 0) + (d["comercial_ref"] or 0)
         rango = ("%s &ndash; %s" % (pes(d["tiquete_min"]), pes(d["tiquete_max"]))
                  if d["tiquete_ref"] and d["tiquete_min"] != d["tiquete_max"] else "")
         out.append(
             '<tr><td class="dest">%s</td>'
             '<td class="num">%s%s</td>'
             '<td class="num">%s</td>'
+            '<td class="num">%s</td>'
             '<td class="num tot">%s</td></tr>' % (
                 d["destino"], pes(d["tiquete_ref"]),
                 '<span class="rango">%s</span>' % rango if rango else "",
-                pes(d["impuestos"]), pes(nb) if d["tiquete_ref"] else pes(d["impuestos"])))
+                pes(d["impuestos"]), pes(d["comercial_ref"]), pes(nb)))
     return "".join(out)
 
 
@@ -160,12 +161,13 @@ historial de variaciones.">
     <div class="formula">
       <div class="t">Base bonificable</div>
       <div class="f">= &nbsp;precio del paquete &nbsp;&minus;&nbsp; tiquete aéreo
-      &nbsp;&minus;&nbsp; impuestos y tasas</div>
+      &nbsp;&minus;&nbsp; impuestos y tasas &nbsp;&minus;&nbsp; costo comercial</div>
     </div>
 
-    <p>El <b>tiquete aéreo</b> lo cobra la aerolínea y los <b>impuestos y tasas</b> se giran
-    completos a terceros. Ninguno de los dos es ingreso de la agencia, y por eso ninguno entra en
-    la base del beneficio.</p>
+    <p>El <b>tiquete aéreo</b> lo cobra la aerolínea, los <b>impuestos y tasas</b> se giran
+    completos a terceros, y el <b>costo comercial</b> es lo que Trvely paga al asesor y al director
+    que atienden la reserva. Ninguno de los tres es ingreso de la agencia, y por eso ninguno entra
+    en la base del beneficio.</p>
 
     <div class="nota">
       <div class="t">Por qué lo manejamos así</div>
@@ -187,7 +189,7 @@ historial de variaciones.">
       <table>
         <caption>Destinos nacionales</caption>
         <thead><tr><th>Destino</th><th>Tiquete de referencia</th><th>Impuestos</th>
-          <th>No bonificable</th></tr></thead>
+          <th>Costo comercial</th><th>No bonificable</th></tr></thead>
         <tbody>{filas(dat["destinos"], "nacional")}</tbody>
       </table>
     </div>
@@ -196,7 +198,7 @@ historial de variaciones.">
       <table>
         <caption>Destinos internacionales</caption>
         <thead><tr><th>Destino</th><th>Tiquete de referencia</th><th>Impuestos</th>
-          <th>No bonificable</th></tr></thead>
+          <th>Costo comercial</th><th>No bonificable</th></tr></thead>
         <tbody>{filas(dat["destinos"], "internacional")}</tbody>
       </table>
     </div>
@@ -207,7 +209,11 @@ historial de variaciones.">
       salida y por temporada, y la cifra publicada es la <b>mediana de las salidas vigentes</b> del
       destino, con su rango debajo. <b>El valor que se descuenta en cada reserva es el del
       itinerario efectivamente cotizado</b>, y aparece desglosado en la cotización.</p>
-      <p>Los <b>impuestos</b>, en cambio, son fijos por destino: son los de esta tabla.</p>
+      <p>El <b>costo comercial</b> sigue la misma lógica: se publica la mediana del destino y en
+      cada reserva se descuenta el que efectivamente se liquida.</p>
+      <p><b>Rige el valor publicado en esta página a la fecha de cada cotización.</b> Cuando una
+      tasa, un tiquete o un costo cambia, se actualiza aquí y queda registrado abajo; el
+      porcentaje pactado en el convenio no cambia nunca.</p>
     </div>
 
     <p><b>Destinos no listados:</b> se incorporan a esta página con su tiquete de referencia e
