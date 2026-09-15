@@ -23,7 +23,9 @@ test("server-renders the Coopercar Caribe 2027 landing page", async () => {
   assert.match(html, /Tu Caribe 2027/);
   assert.match(html, /Proyecta tus cuotas/);
   assert.match(html, /Catalonia Royal Bávaro/);
-  assert.match(html, /Tarifas en validación/);
+  assert.match(html, /Tarifas Coopercar disponibles/);
+  assert.match(html, /Tarifa publicada por persona/i);
+  assert.match(html, /\$\s*4\.974\.990/);
   assert.match(html, /573233916413/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|Your site is taking shape/i);
 });
@@ -35,4 +37,15 @@ test("publishes all four departures and the payment rule", async () => {
   }
   assert.match(html, /\$200\.000 por cada persona/);
   assert.match(html, /un mes antes del viaje/);
+  assert.match(html, /traslado privado de llegada y salida/);
+});
+
+test("protects hotel selection with age, access and room-category rules", async () => {
+  const html = await (await render()).text();
+  assert.match(html, /Solo huéspedes de 18 años cumplidos/);
+  assert.match(html, /no incluye acceso al Royal La Romana/i);
+  assert.match(html, /acceso es en un solo sentido/i);
+  assert.match(html, /Swim Up quiere decir piscina privada/i);
+  assert.match(html, /tarifa de menores no se calcula automáticamente/i);
+  assert.match(html, /Privileged no viene en todas/i);
 });
