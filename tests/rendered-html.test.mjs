@@ -96,6 +96,10 @@ test("publishes the complete Cartagena Plaza product experience", async () => {
   assert.match(html, /tarifa “desde”/i);
   assert.match(html, /categoría específica/i);
   assert.match(html, /573233916413/);
+  assert.match(html, /galeria-hotel-cartagena-plaza-20\.webp/);
+  assert.match(html, /galeria-hotel-cartagena-plaza-57\.webp/);
+  assert.match(html, /habitacion-superior-vista-mar-cartagena-plaza\.webp/);
+  assert.doesNotMatch(html, /galeria-hotel-cartagena-plaza-66\.webp/);
 
   const exported = await readFile(new URL("../dist/client/coopercar/cartagena-plaza/index.html", import.meta.url), "utf8");
   assert.match(exported, /Hotel Cartagena Plaza/);
@@ -117,6 +121,11 @@ test("publishes the complete Cartagena Dubai product experience", async () => {
   assert.match(html, /WhatsApp inicia la asesoría/i);
   assert.match(html, /No confirma cupo, tarifa, vuelo, habitación ni servicios/i);
   assert.match(html, /573233916413/);
+  assert.match(html, /DUBAI-CARTAGENA-36-2304w\.jpg/);
+  assert.match(html, /DUBAI-CARTAGENA-52-2304w\.jpg/);
+  assert.match(html, /DUBAI-CARTAGENA-47-65661f51-2880w\.jpg/);
+  assert.doesNotMatch(html, /cartagena-dubai_017\.jpg/);
+  assert.doesNotMatch(html, /cartagena-dubai_019\.jpg/);
 
   const exported = await readFile(new URL("../dist/client/coopercar/cartagena-dubai/index.html", import.meta.url), "utf8");
   assert.match(exported, /Hotel Cartagena Dubai/);

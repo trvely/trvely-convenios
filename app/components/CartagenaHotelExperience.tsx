@@ -101,7 +101,7 @@ export default function CartagenaHotelExperience({ config }: { config: Cartagena
     setActivePhoto((current) => (current + direction + config.gallery.length) % config.gallery.length);
 
   return (
-    <main className={s.page} id="inicio">
+    <main className={s.page} id="inicio" data-hotel={config.id}>
       <header className={s.header}>
         <a className={s.brand} href="/coopercar/" aria-label="Volver al convenio Coopercar de Trvely">
           <Image src="/brand/trvely.png" width={300} height={90} alt="Trvely" priority />

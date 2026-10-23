@@ -25,6 +25,12 @@ const assetVersions: Record<string, string> = {
 const dubaiAsset = (number: string) =>
   `https://res.cloudinary.com/trvely/image/upload/v${assetVersions[number]}/trvely/hoteles/cartagena/cartagena-dubai/imagenes/cartagena-dubai_${number}.jpg`;
 
+const dubaiOfficialAsset = (file: string) =>
+  `https://irp.cdn-website.com/b8e59e8d/dms3rep/multi/opt/${file}`;
+
+const dubaiRoomAsset = (file: string) =>
+  `https://media.omnibees.com/Images/17253/RoomTypes/640x426/${file}/`;
+
 const config: CartagenaHotelConfig = {
   id: "cartagena-dubai",
   name: "Hotel Cartagena Dubai",
@@ -40,12 +46,12 @@ const config: CartagenaHotelConfig = {
   officialUrl: "https://www.cartagenadubai.com/",
   officialRoomsUrl: "https://www.cartagenadubai.com/habitaciones",
   hero: {
-    src: dubaiAsset("002"),
-    alt: "Vista representativa del Hotel Cartagena Dubai en Bocagrande",
+    src: dubaiOfficialAsset("DUBAI-CARTAGENA-2-2304w.jpg"),
+    alt: "Hotel Cartagena Dubai destacado en la línea costera de Bocagrande frente al Caribe",
   },
   featurePhoto: {
-    src: dubaiAsset("012"),
-    alt: "Instalaciones del Hotel Cartagena Dubai con vista a la ciudad y al mar",
+    src: dubaiOfficialAsset("DUBAI-CARTAGENA-4-2304w.jpg"),
+    alt: "Piscina y fachada dorada del Hotel Cartagena Dubai vistas desde el aire",
   },
   highlights: [
     { title: "30 pisos", detail: "Una torre vertical con ambientes y perspectivas diferentes de Cartagena." },
@@ -59,39 +65,39 @@ const config: CartagenaHotelConfig = {
       eyebrow: "BASE COMERCIAL TRVELY",
       description: "La categoría de entrada al hotel, con alternativas de vista a la ciudad y espacios funcionales.",
       details: ["Vista ciudad", "Wi-Fi", "Aire acondicionado"],
-      image: dubaiAsset("013"),
+      image: dubaiOfficialAsset("DUBAI-CARTAGENA-47-65661f51-2880w.jpg"),
     },
     {
       name: "Superior",
       eyebrow: "VISTA AL MAR",
       description: "Una alternativa para quienes quieren que el Caribe sea parte del descanso y del despertar.",
       details: ["Vista al mar", "Según ocupación", "Sujeta a suplemento"],
-      image: dubaiAsset("016"),
+      image: dubaiAsset("013"),
     },
     {
       name: "Junior Suite",
       eyebrow: "MÁS AMPLITUD",
       description: "Una categoría superior con vista al mar y mayor capacidad, ideal para compartir la experiencia.",
       details: ["Vista al mar", "Capacidad por validar", "Categoría superior"],
-      image: dubaiAsset("017"),
+      image: dubaiAsset("022"),
     },
     {
       name: "Master Suite",
       eyebrow: "PARA GRUPOS",
       description: "La opción más amplia del inventario comercial, pensada para grupos y sujeta a capacidad confirmada.",
       details: ["Vista al mar", "Hasta 6 según hotel", "Sujeta a suplemento"],
-      image: dubaiAsset("022"),
+      image: dubaiRoomAsset("1085383.jpg"),
     },
   ],
   gallery: [
-    { src: dubaiAsset("002"), alt: "Vista exterior representativa del Hotel Cartagena Dubai." },
-    { src: dubaiAsset("006"), alt: "Arquitectura y ambientes del Hotel Cartagena Dubai." },
-    { src: dubaiAsset("012"), alt: "Espacios del hotel en el entorno de Bocagrande." },
-    { src: dubaiAsset("013"), alt: "Habitación representativa del inventario de Cartagena Dubai." },
-    { src: dubaiAsset("016"), alt: "Ambiente interior del hotel preparado para el descanso." },
-    { src: dubaiAsset("017"), alt: "Otra habitación representativa disponible en la propiedad." },
-    { src: dubaiAsset("042"), alt: "Piscina del hotel con vista al Caribe." },
-    { src: dubaiAsset("058"), alt: "Una perspectiva más de la experiencia Cartagena Dubai." },
+    { src: dubaiOfficialAsset("DUBAI-CARTAGENA-2-2304w.jpg"), alt: "El hotel destaca en la línea costera de Bocagrande." },
+    { src: dubaiOfficialAsset("DUBAI-CARTAGENA-36-2304w.jpg"), alt: "Vista aérea nocturna del Hotel Cartagena Dubai en Bocagrande." },
+    { src: dubaiOfficialAsset("DUBAI-CARTAGENA-4-2304w.jpg"), alt: "Vista aérea de la piscina junto a la fachada dorada del hotel." },
+    { src: dubaiOfficialAsset("DUBAI-CARTAGENA-52-2304w.jpg"), alt: "Piscina iluminada del hotel con vista a la costa de Cartagena." },
+    { src: dubaiOfficialAsset("DUBAI-CARTAGENA-16-2304w.jpg"), alt: "Terraza en altura con panorámica nocturna de Cartagena." },
+    { src: dubaiOfficialAsset("DUBAI-CARTAGENA-5-2304w.jpg"), alt: "Lobby luminoso del Hotel Cartagena Dubai." },
+    { src: dubaiOfficialAsset("DUBAI-CARTAGENA-47-65661f51-2880w.jpg"), alt: "Habitación luminosa con vista desde el Hotel Cartagena Dubai." },
+    { src: dubaiAsset("013"), alt: "Habitación representativa del Hotel Cartagena Dubai." },
   ],
 };
 

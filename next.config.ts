@@ -12,6 +12,8 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "res.cloudinary.com" },
       { protocol: "https", hostname: "static-resources-elementor.mirai.com" },
       { protocol: "https", hostname: "images.mirai.com" },
+      { protocol: "https", hostname: "irp.cdn-website.com" },
+      { protocol: "https", hostname: "media.omnibees.com" },
     ],
   },
 };
