@@ -1,13 +1,14 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 
-async function render() {
+async function render(pathname = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
   workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
   const { default: worker } = await import(workerUrl.href);
 
   return worker.fetch(
-    new Request("http://localhost/", { headers: { accept: "text/html" } }),
+    new Request(`http://localhost${pathname}`, { headers: { accept: "text/html" } }),
     { ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) } },
     { waitUntil() {}, passThroughOnException() {} },
   );
@@ -28,6 +29,25 @@ test("server-renders the Coopercar Caribe 2027 landing page", async () => {
   assert.match(html, /\$\s*4\.974\.990/);
   assert.match(html, /573233916413/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|Your site is taking shape/i);
+});
+
+test("server-renders and exports the Coral Costa Caribe 2027 product page", async () => {
+  const response = await render("/coopercar/coral-costa-caribe");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /Coral Costa Caribe 2027/);
+  assert.match(html, /\$3\.600\.000/);
+  assert.match(html, /\$3\.200\.000/);
+  assert.match(html, /SOLO BAJO SOLICITUD/);
+  assert.match(html, /\$200\.000 por persona/);
+  assert.match(html, /21 — 25 octubre/);
+  assert.match(html, /9 — 13 diciembre/);
+  assert.match(html, /no se reserva automáticamente/i);
+  assert.match(html, /573233916413/);
+
+  const exported = await readFile(new URL("../dist/client/coopercar/coral-costa-caribe/index.html", import.meta.url), "utf8");
+  assert.match(exported, /Coral Costa Caribe 2027/);
+  assert.match(exported, /SOLO BAJO SOLICITUD/);
 });
 
 test("publishes all four departures and the payment rule", async () => {

@@ -22,6 +22,19 @@ La experiencia comercial de Trvely y Coopercar vive en:
 
 [`convenios.trvely.com.co/coopercar/`](https://convenios.trvely.com.co/coopercar/)
 
+### Coral Costa Caribe · Juan Dolio 2027
+
+El convenio suma una landing independiente para Coral Costa Caribe con las mismas cuatro salidas:
+
+[`convenios.trvely.com.co/coopercar/coral-costa-caribe/`](https://convenios.trvely.com.co/coopercar/coral-costa-caribe/)
+
+- Plan principal: 4 noches por COP 3.600.000 por persona en acomodación doble.
+- Separación: COP 200.000 por persona.
+- Alternativa: 3 noches por COP 3.200.000 por persona, únicamente bajo solicitud al comercial
+  responsable de la alianza.
+- La categoría de habitación, los menores, otras ocupaciones, los vuelos y la disponibilidad se
+  confirman antes del pago.
+
 Desarrollo y validación:
 
 ```bash

@@ -333,6 +333,11 @@ export default function Home() {
         <div><strong>PUJ o SDQ</strong><span>dos aeropuertos posibles</span></div>
       </section>
 
+      <aside className="coral-invitation" aria-label="Nuevo plan Coral Costa Caribe">
+        <div><span>NUEVO EN EL CONVENIO</span><strong>Coral Costa Caribe · Juan Dolio</strong><p>Las mismas cuatro salidas, un plan de 4 noches por $3.600.000 por persona y separación desde $200.000.</p></div>
+        <a href="/coopercar/coral-costa-caribe/">Conocer el nuevo plan <span>→</span></a>
+      </aside>
+
       <section className="date-preview" id="fechas">
         <div className="section-heading compact"><div className="eyebrow">CUATRO MOMENTOS PARA DECIR SÍ</div><h2>Escoge tu semana en el Caribe</h2><p>Todas las salidas son de jueves a lunes: 4 noches y 5 días.</p></div>
         <div className="date-row">
