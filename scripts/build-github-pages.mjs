@@ -8,6 +8,7 @@ const vinextCli = path.join(projectRoot, "node_modules", "vinext", "dist", "cli.
 const clientDir = path.join(projectRoot, "dist", "client");
 const manifestPath = path.join(projectRoot, "dist", "server", "vinext-prerender.json");
 const buildStartedAt = Date.now();
+const productRoutes = ["coral-costa-caribe", "cartagena-plaza", "cartagena-dubai"];
 
 const build = spawnSync(process.execPath, [vinextCli, "build"], {
   cwd: projectRoot,
@@ -20,19 +21,19 @@ process.stderr.write(build.stderr ?? "");
 
 let exportIsComplete = false;
 try {
-  const [manifestText, manifestStats, htmlStats, coralHtmlStats] = await Promise.all([
+  const [manifestText, manifestStats, htmlStats, ...productHtmlStats] = await Promise.all([
     readFile(manifestPath, "utf8"),
     stat(manifestPath),
     stat(path.join(clientDir, "index.html")),
-    stat(path.join(clientDir, "coopercar", "coral-costa-caribe.html")),
+    ...productRoutes.map((route) => stat(path.join(clientDir, "coopercar", `${route}.html`))),
   ]);
   const manifest = JSON.parse(manifestText);
   exportIsComplete =
     manifest.routes?.some((route) => route.route === "/" && route.status === "rendered") &&
-    manifest.routes?.some((route) => route.route === "/coopercar/coral-costa-caribe" && route.status === "rendered") &&
+    productRoutes.every((productRoute) => manifest.routes?.some((route) => route.route === `/coopercar/${productRoute}` && route.status === "rendered")) &&
     manifestStats.mtimeMs >= buildStartedAt - 1000 &&
     htmlStats.mtimeMs >= buildStartedAt - 1000 &&
-    coralHtmlStats.mtimeMs >= buildStartedAt - 1000 &&
+    productHtmlStats.every((stats) => stats.mtimeMs >= buildStartedAt - 1000) &&
     (build.stdout ?? "").includes("Build complete");
 } catch {
   exportIsComplete = false;
@@ -47,16 +48,17 @@ if (build.status !== 0) {
 }
 
 const pageDir = path.join(clientDir, "coopercar");
-const coralPageDir = path.join(pageDir, "coral-costa-caribe");
 await mkdir(pageDir, { recursive: true });
-await mkdir(coralPageDir, { recursive: true });
+await Promise.all(productRoutes.map((route) => mkdir(path.join(pageDir, route), { recursive: true })));
 await Promise.all([
   copyFile(path.join(clientDir, "index.html"), path.join(pageDir, "index.html")),
   copyFile(path.join(clientDir, "index.rsc"), path.join(pageDir, "index.rsc")),
   copyFile(path.join(clientDir, "og-real.jpg"), path.join(pageDir, "og-real.jpg")),
-  copyFile(path.join(pageDir, "coral-costa-caribe.html"), path.join(coralPageDir, "index.html")),
-  copyFile(path.join(pageDir, "coral-costa-caribe.rsc"), path.join(coralPageDir, "index.rsc")),
+  ...productRoutes.flatMap((route) => [
+    copyFile(path.join(pageDir, `${route}.html`), path.join(pageDir, route, "index.html")),
+    copyFile(path.join(pageDir, `${route}.rsc`), path.join(pageDir, route, "index.rsc")),
+  ]),
   writeFile(path.join(clientDir, ".nojekyll"), "", "utf8"),
 ]);
 
-console.log("[publicación] Paquetes listos en dist/client/coopercar/ y dist/client/coopercar/coral-costa-caribe/.");
+console.log(`[publicación] Paquetes listos en dist/client/coopercar/ (${productRoutes.join(", ")}).`);

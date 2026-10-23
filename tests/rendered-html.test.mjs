@@ -70,12 +70,57 @@ test("publishes all four departures and the payment rule", async () => {
   assert.match(html, /Convenio Cartagena Plaza/);
   assert.match(html, /Convenio Cartagena Dubái/);
   assert.match(html, /href="\/coopercar\/coral-costa-caribe\/"/);
+  assert.match(html, /href="\/coopercar\/cartagena-plaza\/"/);
+  assert.match(html, /href="\/coopercar\/cartagena-dubai\/"/);
   for (const date of ["21 — 25 octubre", "18 — 22 noviembre", "25 — 29 noviembre", "9 — 13 diciembre"]) {
     assert.match(html, new RegExp(date));
   }
   assert.match(html, /\$200\.000 por cada persona/);
   assert.match(html, /un mes antes del viaje/);
   assert.match(html, /traslado privado de llegada y salida/);
+});
+
+test("publishes the complete Cartagena Plaza product experience", async () => {
+  const response = await render("/coopercar/cartagena-plaza");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /Hotel Cartagena Plaza/);
+  assert.match(html, /Bocagrande · frente al mar/);
+  assert.match(html, /Superior Vista Ciudad/);
+  assert.match(html, /Superior Vista Mar/);
+  assert.match(html, /Junior Suite/);
+  assert.match(html, /Piscina panorámica/);
+  assert.match(html, /\$1\.499\.999/);
+  assert.match(html, /Vuelos ida y regreso/);
+  assert.match(html, /Tour a Playa Barú/);
+  assert.match(html, /tarifa “desde”/i);
+  assert.match(html, /categoría específica/i);
+  assert.match(html, /573233916413/);
+
+  const exported = await readFile(new URL("../dist/client/coopercar/cartagena-plaza/index.html", import.meta.url), "utf8");
+  assert.match(exported, /Hotel Cartagena Plaza/);
+  assert.match(exported, /Cotiza (?:<!-- -->)?Cartagena Plaza/);
+});
+
+test("publishes the complete Cartagena Dubai product experience", async () => {
+  const response = await render("/coopercar/cartagena-dubai");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assert.match(html, /Hotel Cartagena Dubai/);
+  assert.match(html, /30 pisos/);
+  assert.match(html, /Junior Suite/);
+  assert.match(html, /Master Suite/);
+  assert.match(html, /\$1\.499\.999/);
+  assert.match(html, /Traslados incluidos/);
+  assert.match(html, /Todo incluido/);
+  assert.match(html, /Playa Barú/);
+  assert.match(html, /WhatsApp inicia la asesoría/i);
+  assert.match(html, /No confirma cupo, tarifa, vuelo, habitación ni servicios/i);
+  assert.match(html, /573233916413/);
+
+  const exported = await readFile(new URL("../dist/client/coopercar/cartagena-dubai/index.html", import.meta.url), "utf8");
+  assert.match(exported, /Hotel Cartagena Dubai/);
+  assert.match(exported, /Cotiza (?:<!-- -->)?Cartagena Dubai/);
 });
 
 test("protects hotel selection with age, access and room-category rules", async () => {

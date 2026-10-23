@@ -1,10 +1,6 @@
 type HotelSwitcherProps = {
-  current: "catalonia" | "coral";
+  current: "catalonia" | "coral" | "cartagena-plaza" | "cartagena-dubai";
 };
-
-const WHATSAPP = "573233916413";
-const cartagenaInquiry = (hotel: string) =>
-  `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(`Hola, equipo Trvely. Me interesa el Convenio Coopercar para ${hotel}, plan de 3 noches desde $1.499.999 por persona. El plan publicado incluye tiquetes aéreos ida y regreso con salida desde Bogotá, traslados aeropuerto–hotel–aeropuerto, 3 noches de alojamiento, alimentación todo incluido y tour a Playa Barú. Quiero consultar fechas disponibles, tarifa final, acomodación y condiciones. Entiendo que el precio puede variar según las fechas seleccionadas y la disponibilidad.`)}`;
 
 const hotelOptions = [
   {
@@ -27,17 +23,17 @@ const hotelOptions = [
     id: "cartagena-plaza",
     name: "Convenio Cartagena Plaza",
     detail: "3 noches desde $1.499.999",
-    href: cartagenaInquiry("Cartagena Plaza"),
+    href: "/coopercar/cartagena-plaza/",
     mark: "CP",
-    external: true,
+    external: false,
   },
   {
     id: "cartagena-dubai",
     name: "Convenio Cartagena Dubái",
     detail: "3 noches desde $1.499.999",
-    href: cartagenaInquiry("Cartagena Dubái"),
+    href: "/coopercar/cartagena-dubai/",
     mark: "CD",
-    external: true,
+    external: false,
   },
 ] as const;
 
