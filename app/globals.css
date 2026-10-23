@@ -39,6 +39,12 @@ button, input, select { font: inherit; }
 .hotel-switcher-option strong { font-size:11px; }
 .hotel-switcher-option small { color:#806d72; font-size:8px; }
 .hotel-switcher-option>b { color:#a1123c; font-size:13px; }
+.cartagena-menu-plan { margin-top:11px; padding:15px 16px; color:#244842; background:linear-gradient(135deg,#e5f5ef,#fff8ec); border:1px solid #c9e4da; border-radius:15px; }
+.cartagena-menu-plan>span { display:block; color:#b41241; font-size:6px; font-weight:900; letter-spacing:.12em; }
+.cartagena-menu-plan>strong { margin-top:5px; display:block; font-size:11px; }
+.cartagena-menu-plan ul { margin:10px 0 0; padding:0; display:grid; gap:5px; list-style:none; }
+.cartagena-menu-plan li { position:relative; padding-left:13px; color:#526d68; font-size:8px; line-height:1.4; }
+.cartagena-menu-plan li::before { content:"✓"; position:absolute; left:0; color:#b41241; font-weight:900; }
 .hotel-switcher-panel>p { margin:13px 8px 3px; padding-top:11px; color:#756167; border-top:1px solid #eadfe1; font-size:8px; line-height:1.55; }
 .hotel-switcher-panel>p strong { color:#8c1235; }
 .hero { min-height:790px; height:min(92vh,900px); position:relative; overflow:hidden; color:white; background:#281219; }

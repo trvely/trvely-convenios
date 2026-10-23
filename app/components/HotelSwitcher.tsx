@@ -4,7 +4,7 @@ type HotelSwitcherProps = {
 
 const WHATSAPP = "573233916413";
 const cartagenaInquiry = (hotel: string) =>
-  `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(`Hola, equipo Trvely. Me interesa el Convenio Coopercar para ${hotel}, plan de 3 noches desde $1.499.999 por persona. Quiero consultar fechas disponibles, tarifa final, acomodación y condiciones. Entiendo que el precio puede variar según las fechas seleccionadas y la disponibilidad.`)}`;
+  `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(`Hola, equipo Trvely. Me interesa el Convenio Coopercar para ${hotel}, plan de 3 noches desde $1.499.999 por persona. El plan publicado incluye tiquetes aéreos ida y regreso con salida desde Bogotá, traslados aeropuerto–hotel–aeropuerto, 3 noches de alojamiento, alimentación todo incluido y tour a Playa Barú. Quiero consultar fechas disponibles, tarifa final, acomodación y condiciones. Entiendo que el precio puede variar según las fechas seleccionadas y la disponibilidad.`)}`;
 
 const hotelOptions = [
   {
@@ -76,6 +76,17 @@ export default function HotelSwitcher({ current }: HotelSwitcherProps) {
             </a>
           );
         })}
+        <div className="cartagena-menu-plan">
+          <span>PARA CARTAGENA PLAZA Y CARTAGENA DUBÁI</span>
+          <strong>Tu plan de 3 noches incluye</strong>
+          <ul>
+            <li>Tiquetes aéreos ida y regreso desde Bogotá</li>
+            <li>Traslados aeropuerto–hotel–aeropuerto</li>
+            <li>3 noches de alojamiento</li>
+            <li>Alimentación todo incluido</li>
+            <li>Tour a Playa Barú</li>
+          </ul>
+        </div>
         <p><strong>Tarifas desde.</strong> Los precios pueden variar según las fechas seleccionadas, disponibilidad, acomodación y condiciones vigentes al cotizar.</p>
       </div>
     </details>

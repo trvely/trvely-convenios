@@ -50,6 +50,10 @@ test("server-renders and exports the Coral Costa Caribe 2027 product page", asyn
   assert.match(html, /Convenio Cartagena Plaza/);
   assert.match(html, /Convenio Cartagena Dubái/);
   assert.match(html, /3 noches desde \$1\.499\.999/);
+  assert.match(html, /Tiquetes aéreos ida y regreso desde Bogotá/);
+  assert.match(html, /Traslados aeropuerto–hotel–aeropuerto/);
+  assert.match(html, /Alimentación todo incluido/);
+  assert.match(html, /Tour a Playa Barú/);
   assert.match(html, /precios pueden variar según las fechas seleccionadas/i);
   assert.match(html, /href="\/coopercar\/"/);
 
