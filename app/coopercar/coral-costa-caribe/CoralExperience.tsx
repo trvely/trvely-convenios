@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
+import HotelSwitcher from "../../components/HotelSwitcher";
 import s from "./coral.module.css";
 
 const PRICE_FOUR_NIGHTS = 3_600_000;
@@ -92,6 +93,7 @@ export default function CoralExperience() {
           <span />
           <b>COOPERCAR</b>
         </a>
+        <HotelSwitcher current="coral" />
         <nav aria-label="Navegación de la página">
           <a href="#salidas">Salidas</a>
           <a href="#experiencia">El hotel</a>

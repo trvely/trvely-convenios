@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Image from "next/image";
+import HotelSwitcher from "./components/HotelSwitcher";
 
 export const dynamic = "force-static";
 
@@ -298,6 +299,7 @@ export default function Home() {
           <span className="brand-divider" aria-hidden="true" />
           <span className="partner-lockup"><small>CONVENIO</small>COOPERCAR</span>
         </a>
+        <HotelSwitcher current="catalonia" />
         <nav aria-label="Navegación principal">
           <a href="#fechas">Fechas</a><a href="#hoteles">Hoteles</a><a href="#pagos">Plan de pagos</a>
         </nav>

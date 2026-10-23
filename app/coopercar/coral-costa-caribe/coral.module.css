@@ -268,6 +268,7 @@
 .page button:focus-visible,.page a:focus-visible,.page summary:focus-visible,.page input:focus-visible,.page select:focus-visible { outline: 3px solid #f1c58f; outline-offset: 3px; }
 
 @media (max-width: 1120px) {
+  .header nav { display: none; }
   .heroContent { grid-template-columns: 1fr .7fr; }
   .heroPrice { grid-column: 1; grid-row: 2; align-self: start; width: 310px; margin: -150px 0 40px; }
   .trianaHero { grid-column: 2; grid-row: 1/3; }
@@ -307,9 +308,9 @@
 }
 
 @media (max-width: 600px) {
-  .header { height: 76px; padding: 0 17px; }
+  .header { height: 76px; padding: 0 16px; gap: 10px; }
   .brand img { width: 91px; }
-  .brand b { font-size: 8px; }
+  .brand span,.brand b { display: none; }
   .headerCta { display: none; }
   .heroContent { padding: 120px 20px 32px; }
   .heroCopy h1 { font-size: clamp(54px,18vw,77px); }
