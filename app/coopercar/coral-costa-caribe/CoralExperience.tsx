@@ -93,13 +93,15 @@ export default function CoralExperience() {
           <span />
           <b>COOPERCAR</b>
         </a>
-        <HotelSwitcher current="coral" />
-        <nav aria-label="Navegación de la página">
-          <a href="#salidas">Salidas</a>
-          <a href="#experiencia">El hotel</a>
-          <a href="#incluye">Incluye</a>
-          <a href="#pagos">Pagos</a>
-        </nav>
+        <div className="header-menu-group">
+          <HotelSwitcher current="coral" />
+          <nav className={s.sectionNav} aria-label="Secciones de Coral Costa Caribe">
+            <a href="#salidas">Salidas</a>
+            <a href="#experiencia">El hotel</a>
+            <a href="#incluye">Incluye</a>
+            <a href="#pagos">Pagos</a>
+          </nav>
+        </div>
         <a className={s.headerCta} href={fourNightWhatsApp} target="_blank" rel="noreferrer">Hablar con Trvely</a>
       </header>
 

@@ -5,14 +5,14 @@ type HotelSwitcherProps = {
 const hotelOptions = [
   {
     id: "catalonia",
-    name: "Catalonia Resorts",
+    name: "Convenio Catalonia",
     detail: "4 propiedades para elegir",
     href: "/coopercar/",
     mark: "C",
   },
   {
     id: "coral",
-    name: "Coral Costa Caribe",
+    name: "Convenio Coral Costa Caribe",
     detail: "Juan Dolio · 4 noches",
     href: "/coopercar/coral-costa-caribe/",
     mark: "CC",
@@ -20,21 +20,19 @@ const hotelOptions = [
 ] as const;
 
 export default function HotelSwitcher({ current }: HotelSwitcherProps) {
-  const selected = hotelOptions.find((hotel) => hotel.id === current) ?? hotelOptions[0];
-
   return (
     <details className="hotel-switcher">
-      <summary aria-label={`Cambiar hotel. Selección actual: ${selected.name}`}>
+      <summary aria-label="Abrir menú de convenios hoteleros. Hay 2 opciones disponibles">
         <span className="hotel-switcher-copy">
-          <small>ELIGE TU EXPERIENCIA</small>
-          <strong>{selected.name}</strong>
+          <small>MENÚ PRINCIPAL</small>
+          <strong>Convenios hoteleros <em>2</em></strong>
         </span>
         <span className="hotel-switcher-chevron" aria-hidden="true">⌄</span>
       </summary>
       <div className="hotel-switcher-panel">
         <div className="hotel-switcher-heading">
-          <small>CONVENIO COOPERCAR 2027</small>
-          <strong>¿Dónde quieres quedarte?</strong>
+          <small>COOPERCAR · PRODUCTOS DISPONIBLES</small>
+          <strong>Elige tu convenio</strong>
         </div>
         {hotelOptions.map((hotel) => {
           const isCurrent = hotel.id === current;
@@ -48,7 +46,7 @@ export default function HotelSwitcher({ current }: HotelSwitcherProps) {
               <span className="hotel-switcher-mark" aria-hidden="true">{hotel.mark}</span>
               <span>
                 <strong>{hotel.name}</strong>
-                <small>{hotel.detail}</small>
+                <small>{isCurrent ? `Estás aquí · ${hotel.detail}` : hotel.detail}</small>
               </span>
               <b aria-hidden="true">{isCurrent ? "✓" : "→"}</b>
             </a>

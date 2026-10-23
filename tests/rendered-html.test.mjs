@@ -44,7 +44,9 @@ test("server-renders and exports the Coral Costa Caribe 2027 product page", asyn
   assert.match(html, /9 — 13 diciembre/);
   assert.match(html, /no se reserva automáticamente/i);
   assert.match(html, /573233916413/);
-  assert.match(html, /Cambiar hotel\. Selección actual: Coral Costa Caribe/);
+  assert.match(html, /Abrir menú de convenios hoteleros\. Hay 2 opciones disponibles/);
+  assert.match(html, /Convenio Catalonia/);
+  assert.match(html, /Convenio Coral Costa Caribe/);
   assert.match(html, /href="\/coopercar\/"/);
 
   const exported = await readFile(new URL("../dist/client/coopercar/coral-costa-caribe/index.html", import.meta.url), "utf8");
@@ -54,7 +56,9 @@ test("server-renders and exports the Coral Costa Caribe 2027 product page", asyn
 
 test("publishes all four departures and the payment rule", async () => {
   const html = await (await render()).text();
-  assert.match(html, /Cambiar hotel\. Selección actual: Catalonia Resorts/);
+  assert.match(html, /Abrir menú de convenios hoteleros\. Hay 2 opciones disponibles/);
+  assert.match(html, /Convenio Catalonia/);
+  assert.match(html, /Convenio Coral Costa Caribe/);
   assert.match(html, /href="\/coopercar\/coral-costa-caribe\/"/);
   for (const date of ["21 — 25 octubre", "18 — 22 noviembre", "25 — 29 noviembre", "9 — 13 diciembre"]) {
     assert.match(html, new RegExp(date));

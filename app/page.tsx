@@ -299,10 +299,12 @@ export default function Home() {
           <span className="brand-divider" aria-hidden="true" />
           <span className="partner-lockup"><small>CONVENIO</small>COOPERCAR</span>
         </a>
-        <HotelSwitcher current="catalonia" />
-        <nav aria-label="Navegación principal">
-          <a href="#fechas">Fechas</a><a href="#hoteles">Hoteles</a><a href="#pagos">Plan de pagos</a>
-        </nav>
+        <div className="header-menu-group">
+          <HotelSwitcher current="catalonia" />
+          <nav className="section-nav" aria-label="Secciones de Catalonia">
+            <a href="#fechas">Fechas</a><a href="#hoteles">Hoteles</a><a href="#pagos">Plan de pagos</a>
+          </nav>
+        </div>
         <a className="header-cta" href="#hoteles">Explorar el convenio</a>
       </header>
 

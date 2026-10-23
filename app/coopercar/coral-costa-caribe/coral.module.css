@@ -35,9 +35,9 @@
 .brand img { width: 118px; height: auto; filter: brightness(0) invert(1); }
 .brand span { width: 1px; height: 28px; background: rgba(255,255,255,.4); }
 .brand b { font-size: 11px; letter-spacing: .16em; }
-.header nav { display: flex; gap: 30px; font-size: 11px; font-weight: 700; }
-.header nav a { color: rgba(255,255,255,.76); transition: color .2s ease; }
-.header nav a:hover { color: #fff; }
+.sectionNav { display: flex; gap: 30px; font-size: 11px; font-weight: 700; }
+.sectionNav a { color: rgba(255,255,255,.76); transition: color .2s ease; }
+.sectionNav a:hover { color: #fff; }
 .headerCta { padding: 13px 19px; color: #fff; border: 1px solid rgba(255,255,255,.55); border-radius: 999px; font-size: 10px; font-weight: 800; }
 
 .hero { position: relative; min-height: 830px; height: min(94vh, 920px); overflow: hidden; color: #fff; background: #221118; }
@@ -268,7 +268,7 @@
 .page button:focus-visible,.page a:focus-visible,.page summary:focus-visible,.page input:focus-visible,.page select:focus-visible { outline: 3px solid #f1c58f; outline-offset: 3px; }
 
 @media (max-width: 1120px) {
-  .header nav { display: none; }
+  .sectionNav { display: none; }
   .heroContent { grid-template-columns: 1fr .7fr; }
   .heroPrice { grid-column: 1; grid-row: 2; align-self: start; width: 310px; margin: -150px 0 40px; }
   .trianaHero { grid-column: 2; grid-row: 1/3; }
