@@ -7,6 +7,7 @@
   },
   "scripts": {
     "dev": "vinext dev",
+    "test:bca": "node --test tests/bca.test.mjs",
     "build": "node scripts/build-github-pages.mjs",
     "start": "vinext start",
     "test": "npm run build && node --test tests/rendered-html.test.mjs",
