@@ -1,5 +1,6 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
+import { DATOS } from "../bca/js/datos.js";
 import {
   VALOR_PERSONA,
   ahoraServidor,
@@ -110,5 +111,102 @@ describe("lógica", () => {
       media: "http://localhost:8001/",
     });
     assert.deepEqual(overrides({ hostname: "localhost", search: "?api=otro&media=x" }), {});
+  });
+});
+
+describe("contenido", () => {
+  const EQUIPOS = [
+    "Stars", "Elite", "Force", "Kids", "Ladies", "Knock Out", "Power", "Storm",
+    "Top X", "Legends", "Babies", "Small Diamonds", "Blaze", "Otro equipo BCA", "Familiar o acompañante",
+  ];
+  const todo = JSON.stringify(DATOS);
+
+  it("apertura, api y constantes", () => {
+    assert.equal(DATOS.apertura, "2026-12-18T00:00:00-05:00");
+    assert.equal(DATOS.api, "https://equipo.trvely.com.co/api/bca27");
+    assert.deepEqual(DATOS.whatsapp, { numero: "573223584982", nombre: "Paola, equipo Trvely" });
+    assert.deepEqual(DATOS.pagos, {
+      llave: "0081973919",
+      banco: "Bancolombia",
+      titular: "Trvely S.A.S.",
+      medios: "https://trvely.com.co/medios-de-pago/",
+    });
+  });
+
+  it("siete capítulos con principal y galería de 3 a 5 con alt", () => {
+    assert.deepEqual(
+      DATOS.capitulos.map((c) => c.id),
+      ["enero", "marzo", "mayo", "junio", "agosto", "septiembre", "octubre"],
+    );
+    for (const c of DATOS.capitulos) {
+      assert.ok(c.mes && c.titulo && c.texto, c.id);
+      assert.ok(c.principal.medio && c.principal.alt.trim(), c.id);
+      assert.ok(c.galeria.length >= 3 && c.galeria.length <= 5, c.id);
+      for (const g of c.galeria) assert.ok(g.medio && g.alt.trim(), c.id);
+    }
+  });
+
+  it("toda referencia de medio existe en DATOS.media.items", () => {
+    const refs = [DATOS.portada, ...DATOS.capitulos.flatMap((c) => [c.principal, ...c.galeria])];
+    for (const r of refs) assert.ok(DATOS.media.items[r.medio], r.medio);
+    assert.equal(Object.keys(DATOS.media.items).length, 31);
+    assert.match(DATOS.media.base, /^https:\/\/media\.trvely\.com\.co\/bca\/2026\/$/);
+    for (const it of Object.values(DATOS.media.items)) assert.equal("entrada" in it, false);
+  });
+
+  it("condiciones: 15 puntos y texto corto", () => {
+    assert.equal(DATOS.condiciones.completo.length, 15);
+    assert.ok(DATOS.condiciones.completo[0].startsWith("Quiénes. TRVELY S.A.S., NIT 901.902.687-9, RNT 232640"));
+    for (const p of DATOS.condiciones.completo) assert.doesNotMatch(p, /\*\*|\n/);
+    assert.ok(
+      DATOS.condiciones.corto.startsWith("Acepto las condiciones de la separación: $200.000 por persona desde los 2 años"),
+    );
+  });
+
+  it("datos obligatorios presentes", () => {
+    for (const s of [
+      "0081973919", "573223584982", "politicas-de-privacidad-trvely", "RNT 232640",
+      "901902687-9", "Ley 1336 de 2009", "más de 76 personas",
+      "Gracias, BCA All Stars, por dejarnos contar su temporada",
+    ]) {
+      assert.ok(todo.includes(s), s);
+    }
+  });
+
+  it("Cancún, producto y pasos", () => {
+    assert.equal(
+      DATOS.cancun.antes.texto,
+      "Del 6 al 13 de diciembre Trvely viaja a Cancún con más de 76 personas del porrismo bogotano, entre ellas la familia BCA. Muy pronto, las fotos.",
+    );
+    assert.equal(DATOS.cancun.despues, null);
+    assert.deepEqual(
+      DATOS.producto.map((p) => [p.titulo, p.texto]),
+      [["Tarifa", null], ["Fechas", null], ["Plan de pagos", null], ["Qué incluye el paquete", null]],
+    );
+    assert.equal(DATOS.pasos.length, 3);
+  });
+
+  it("destino con 8 fotos del hotel", () => {
+    assert.equal(DATOS.destino.hotel, "Catalonia Bávaro Beach");
+    assert.equal(DATOS.destino.fotos.length, 8);
+    for (const u of DATOS.destino.fotos) {
+      assert.match(u, /^https:\/\/media\.trvely\.com\.co\/hoteles\/punta-cana\/catalonia-bavaro-beach\/full\/catalonia-bavaro-beach_\d{3}\.jpg$/);
+    }
+  });
+
+  it("faq de 5 a 7 preguntas completas", () => {
+    assert.ok(DATOS.faq.length >= 5 && DATOS.faq.length <= 7);
+    for (const f of DATOS.faq) assert.ok(f.pregunta.trim() && f.respuesta.trim());
+  });
+
+  it("equipos igual a la lista de la Task 4", () => {
+    assert.deepEqual(DATOS.equipos, EQUIPOS);
+  });
+
+  it("sin palabras internas", () => {
+    assert.doesNotMatch(
+      todo,
+      /\b(netas?|comisi[oó]n(es)?|utilidad|Price|econ[oó]mic[oa]|proveedor(es)?)\b/i,
+    );
   });
 });
