@@ -4,6 +4,7 @@
 import { DATOS } from "./datos.js";
 import {
   VALOR_PERSONA, ahoraServidor, fase, restante, valor, pesos, mensajeWhatsApp, enlaceWhatsApp, overrides,
+  senalLimite, ahorroDatos, cuerpoCancun,
 } from "./logica.js";
 
 const ov = overrides(window.location);
@@ -14,11 +15,15 @@ const CLAVE = "bca27-ultima";
 const MAX_PERSONAS = 20; // igual al Worker (reglas.js)
 const TURNSTILE_JS = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=bca27Turnstile";
 const quieto = window.matchMedia("(prefers-reduced-motion: reduce)");
+// Con «ahorro de datos» los bucles no arrancan solos: queda el póster y «Ver completo» abre el video al tocarlo.
+const ahorro = () => ahorroDatos(navigator);
+const WA_CERRADA = "Hola, Paola. Quiero información sobre el viaje BCA 2027.";
+const WA_NO_DISPONIBLE = "Hola, Paola. Quiero separar mi cupo para el viaje BCA 2027.";
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const url = (archivo) => BASE + archivo;
-const limite = (ms) => (typeof AbortSignal !== "undefined" && AbortSignal.timeout ? AbortSignal.timeout(ms) : undefined);
+const limite = (ms) => senalLimite(ms); // con respaldo para iOS 15.4–15.x (sin AbortSignal.timeout)
 const plural = (n, uno, varios) => `${n} ${n === 1 ? uno : varios}`;
 
 /** Crea un elemento. Los textos van siempre por textContent. */
@@ -40,7 +45,7 @@ const enVista = new Set();
 const visor = $("#visor");
 
 function reproducir(v) {
-  if (quieto.matches || visor.open || document.hidden) return;
+  if (quieto.matches || ahorro() || visor.open || document.hidden) return;
   if (!v.getAttribute("src")) v.src = v.dataset.src;
   v.play().catch(() => {});
 }
@@ -72,7 +77,13 @@ function imgDiferida({ src, srcset, ...props }) {
 
 const pausarTodo = () => $$("video.bucle").forEach((v) => v.pause());
 const reanudar = () => enVista.forEach(reproducir);
-document.addEventListener("visibilitychange", () => (document.hidden ? pausarTodo() : reanudar()));
+// Al volver a la pestaña (o al despertar el celular, p. ej. a las 00:00 del 18-dic) se pregunta de nuevo el estado:
+// la cuenta regresiva no se queda vieja.
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) { pausarTodo(); return; }
+  reanudar();
+  cargarEstado();
+});
 quieto.addEventListener?.("change", () => (quieto.matches ? pausarTodo() : reanudar()));
 
 function videoBucle(m, video = el("video", { class: "bucle", muted: true, playsinline: true, loop: true, preload: "none", "aria-hidden": "true" }), diferido = true) {
@@ -197,21 +208,21 @@ function pintarContenido() {
       galeria(deDatos(c.galeria), `Más fotos y videos de ${c.mes.toLowerCase()}`)));
   }
 
-  // Cancún: «antes» mientras no hay fotos del viaje; con `despues`, la frase y lo que traiga.
-  const { frase, antes, despues } = DATOS.cancun;
-  $("#cancun-titulo").textContent = despues?.titulo || antes.titulo;
+  // Cancún: «antes» mientras no hay fotos del viaje; con `despues`, la frase (si no repite el texto), el texto,
+  // la pieza principal (el mismo componente de los capítulos) y la galería.
+  const cancun = cuerpoCancun(DATOS.cancun);
+  $("#cancun-titulo").textContent = cancun.titulo;
   $("#cancun-cuerpo").append(...[
-    el("p", { text: despues ? frase : antes.texto }),
-    despues?.texto ? el("p", { text: despues.texto }) : null,
-    despues?.galeria?.length ? galeria(deDatos(despues.galeria), "Fotos del viaje a Cancún") : null,
+    ...cancun.parrafos.map((texto) => el("p", { text: texto })),
+    cancun.principal ? principal(cancun.principal) : null,
+    cancun.galeria.length ? galeria(deDatos(cancun.galeria), "Más fotos y videos del viaje a Cancún") : null,
   ].filter(Boolean));
 
   // Destino
   const d = DATOS.destino;
   $("#destino-titulo").textContent = d.hotel;
-  const fotosHotel = d.fotos.map((foto, i) => ({
-    m: { tipo: "foto", w: 1, h: 1 }, foto, mini: foto.replace("/full/", "/thumb/"),
-    alt: `Hotel ${d.hotel}, en Punta Cana: foto ${i + 1} de ${d.fotos.length}`,
+  const fotosHotel = d.fotos.map(({ src, alt }) => ({
+    m: { tipo: "foto", w: 1, h: 1 }, foto: src, mini: src.replace("/full/", "/thumb/"), alt,
   }));
   $("#destino-cuerpo").append(
     el("p", { class: "lugar", text: d.lugar }),
@@ -240,16 +251,10 @@ function pintarContenido() {
   $("#r-llave").textContent = pagos.llave;
   $("#r-banco").textContent = `${pagos.banco}, a nombre de ${pagos.titular}`;
   $("#r-medios").href = pagos.medios;
-  $("#cerrada-whatsapp").href = `https://wa.me/${DATOS.whatsapp.numero}`;
-  const l = DATOS.legal;
-  $("#pie-gracias").textContent = l.gracias;
-  $("#pie-creditos").textContent = l.creditos;
-  $("#pie-lema").textContent = l.lema;
-  $("#pie-legal").append(
-    el("li", { text: l.registro }),
-    el("li", {}, el("a", { href: l.datos.url, target: "_blank", rel: "noopener", text: l.datos.texto })),
-    el("li", { text: l.escnna }),
-  );
+  $("#cerrada-whatsapp").href = enlaceWhatsApp(DATOS.whatsapp.numero, WA_CERRADA);
+  // El pie legal (RNT, NIT, Ley 1581, ESCNNA y lema) está escrito en index.html: se ve aun sin JavaScript.
+  $("#pie-gracias").textContent = DATOS.legal.gracias;
+  $("#pie-creditos").textContent = DATOS.legal.creditos;
 }
 
 /* ---------------- Navegación de meses y el gesto de Cancún ---------------- */
@@ -360,7 +365,8 @@ function pintarFase() {
 let separarCerca = false;
 let tsWidget = null;
 let tsPromesa = null;
-let tsFallo = false;
+let tsFallo = false; // el script de Cloudflare no cargó
+let tsError = false; // el widget avisó un error (error-callback)
 
 function cargarTurnstile() {
   if (!sitekey || tsPromesa) return tsPromesa;
@@ -374,6 +380,9 @@ function cargarTurnstile() {
     tsWidget = window.turnstile.render("#turnstile", {
       sitekey, language: "es", theme: "light", action: "separar",
       "expired-callback": () => reiniciarTurnstile(),
+      // Un error del widget (red, navegador viejo, bloqueador) no debe parecer un «no eres un robot» sin salida.
+      "error-callback": () => { tsError = true; estadoForm(MSG.sinTurnstile); return true; },
+      callback: () => { if (tsError) { tsError = false; if ($("#form-estado").textContent === MSG.sinTurnstile) estadoForm(""); } },
     });
   }).catch(() => {
     tsFallo = true;
@@ -390,7 +399,7 @@ async function esperarToken(ms = 12000) {
   while (performance.now() < fin) {
     const t = tsWidget !== null ? window.turnstile.getResponse(tsWidget) : "";
     if (t) return t;
-    if (tsFallo) return "";
+    if (tsFallo || tsError) return "";
     await new Promise((r) => setTimeout(r, 250));
   }
   return "";
@@ -421,7 +430,9 @@ const MSG = {
   red: "No pudimos confirmar tu separación. Revisa tu conexión y vuelve a intentarlo: si ya quedó guardada, te mostraremos la misma referencia.",
   servidor: "No pudimos confirmar tu separación. Vuelve a intentarlo en un momento: si ya quedó guardada, te mostraremos la misma referencia.",
   verificacion: "No pudimos comprobar que no eres un robot. Espera unos segundos y vuelve a tocar «Separar mi cupo».",
-  sinTurnstile: "No pudimos cargar la verificación de seguridad. Revisa tu conexión y vuelve a intentarlo.",
+  sinToken: "Antes de enviar, marca la casilla de verificación (arriba del botón) y vuelve a tocar «Separar mi cupo».",
+  sinTurnstile: "No pudimos cargar la verificación. Recarga la página.",
+  noDisponible: "La separación no está disponible en este momento. Escríbenos por WhatsApp.",
   origen: "No pudimos recibir tu separación desde esta página. Escríbele a Paola por WhatsApp.",
   procesar: "No pudimos procesar el envío. Revisa los campos y vuelve a intentarlo.",
   limite: "Recibimos varios envíos seguidos desde tu conexión. Espera un minuto y vuelve a intentarlo.",
@@ -464,7 +475,12 @@ function validar(d) {
   return e;
 }
 
-const estadoForm = (texto) => { $("#form-estado").textContent = texto; };
+/** Mensaje bajo el botón; con `enlace`, termina en un enlace (p. ej. WhatsApp). Todo por textContent. */
+const estadoForm = (texto, enlace = null) => {
+  const p = $("#form-estado");
+  p.textContent = texto;
+  if (enlace) p.append(" ", el("a", { href: enlace.href, target: "_blank", rel: "noopener", text: enlace.texto }));
+};
 const controles = (campo) => (campo === "personas" ? GRUPO : [campo]).map((n) => form.elements[n]).filter(Boolean);
 
 function limpiarError(campo) {
@@ -481,8 +497,9 @@ function marcar(campos, enfocar = true) {
     : Object.entries(campos && typeof campos === "object" ? campos : {}).map(([c, m]) => [c, typeof m === "string" && m.trim() ? m : MENSAJES[c]]);
   const marcados = [];
   for (const [campo, mensaje] of pares) {
+    if (!ORDEN.includes(campo)) continue; // antes de usar el nombre (viene del servidor) en un selector
     const p = $(`#error-${campo}`);
-    if (!p || !ORDEN.includes(campo)) continue;
+    if (!p) continue;
     p.textContent = mensaje || MSG.revisa;
     p.hidden = false;
     for (const c of controles(campo)) c.setAttribute("aria-invalid", "true");
@@ -532,13 +549,15 @@ form.addEventListener("submit", async (e) => {
   estadoForm("");
   let r = null;
   let j = null;
+  let tokenEnviado = false;
   try {
     const turnstile = sitekey ? await esperarToken() : "";
-    if (sitekey && !turnstile) { estadoForm(tsFallo ? MSG.sinTurnstile : MSG.verificacion); return; }
+    if (sitekey && !turnstile) { estadoForm(tsFallo || tsError ? MSG.sinTurnstile : MSG.sinToken); return; }
     try {
+      tokenEnviado = !!turnstile;
       r = await fetch(`${API}/separar`, {
         method: "POST", headers: { "Content-Type": "application/json" }, signal: limite(25000),
-        body: JSON.stringify({ ...datos, website: form.elements.website.value, turnstile }),
+        body: JSON.stringify({ ...datos, ref_x: form.elements.ref_x.value, turnstile }),
       });
     } catch {
       estadoForm(MSG.red);
@@ -547,7 +566,9 @@ form.addEventListener("submit", async (e) => {
     j = await r.json().catch(() => null);
     responder(r, j, datos);
   } finally {
-    reiniciarTurnstile(); // un token no se reutiliza: cada intento lleva uno nuevo
+    // Un token no se reutiliza: si se mandó uno, el siguiente intento lleva uno nuevo. Si no se mandó (la persona no
+    // marcó la casilla), NO se reinicia: así no se le borra la casilla que está a punto de marcar.
+    if (tokenEnviado) reiniciarTurnstile();
     enviando = false;
     botonEnviar.disabled = false;
     botonEnviar.textContent = "Separar mi cupo";
@@ -571,6 +592,12 @@ function responder(r, j, datos) {
     case 403: estadoForm(j?.error === "verificacion" ? MSG.verificacion : MSG.origen); return;
     case 400:
     case 413: estadoForm(MSG.procesar); return;
+    case 503:
+      if (j?.error === "no_configurado") {
+        estadoForm(MSG.noDisponible, { href: enlaceWhatsApp(DATOS.whatsapp.numero, WA_NO_DISPONIBLE), texto: "Escribir a Paola por WhatsApp" });
+        return;
+      }
+      estadoForm(MSG.servidor); return;
     default: estadoForm(MSG.servidor);
   }
 }

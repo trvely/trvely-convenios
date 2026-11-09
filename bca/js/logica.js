@@ -52,6 +52,36 @@ export function enlaceWhatsApp(numero, texto) {
   return `https://wa.me/${numero}?text=${encodeURIComponent(texto)}`;
 }
 
+// Tiempo límite de un fetch. iOS 15.4–15.x no tiene AbortSignal.timeout: ahí, AbortController + setTimeout.
+export function senalLimite(ms, g = globalThis) {
+  if (typeof g.AbortSignal?.timeout === "function") return g.AbortSignal.timeout(ms);
+  if (typeof g.AbortController !== "function" || typeof g.setTimeout !== "function") return undefined;
+  const c = new g.AbortController();
+  g.setTimeout(() => c.abort(), ms);
+  return c.signal;
+}
+
+// «Ahorro de datos» del celular: los bucles no arrancan solos (el póster y «Ver completo» siguen).
+export function ahorroDatos(nav) {
+  return nav?.connection?.saveData === true;
+}
+
+// Lo que pinta la sección de Cancún: antes del viaje, «antes»; con `despues`, la frase (solo si no repite el texto),
+// el texto, la pieza principal y la galería.
+export function cuerpoCancun({ frase, antes, despues }) {
+  if (!despues) return { titulo: antes.titulo, parrafos: [antes.texto], principal: null, galeria: [] };
+  const limpio = (s) => String(s ?? "").trim();
+  const parrafos = [];
+  if (limpio(frase) && limpio(frase) !== limpio(despues.texto)) parrafos.push(limpio(frase));
+  if (limpio(despues.texto)) parrafos.push(limpio(despues.texto));
+  return {
+    titulo: limpio(despues.titulo) || antes.titulo,
+    parrafos,
+    principal: despues.principal || null,
+    galeria: Array.isArray(despues.galeria) ? despues.galeria : [],
+  };
+}
+
 // Solo en localhost; en cualquier otro host no hay overrides.
 export function overrides(location) {
   if (location.hostname !== "localhost") return {};

@@ -12,7 +12,26 @@ import {
   mensajeWhatsApp,
   enlaceWhatsApp,
   overrides,
+  senalLimite,
+  ahorroDatos,
+  cuerpoCancun,
 } from "../bca/js/logica.js";
+
+/** Forma de DATOS.cancun.despues cuando llegan las fotos del viaje (14–17 dic). Devuelve la lista de problemas. */
+function problemasDespues(despues, items) {
+  const p = [];
+  const medio = (x, donde) => {
+    if (!x || typeof x !== "object") { p.push(`${donde}: falta`); return; }
+    if (typeof x.medio !== "string" || !items[x.medio]) p.push(`${donde}: medio «${x?.medio}» no está en DATOS.media.items`);
+    if (typeof x.alt !== "string" || !x.alt.trim()) p.push(`${donde}: falta alt`);
+  };
+  if (!despues || typeof despues !== "object") return ["despues no es un objeto"];
+  for (const k of ["titulo", "texto"]) if (typeof despues[k] !== "string" || !despues[k].trim()) p.push(`falta ${k}`);
+  medio(despues.principal, "principal");
+  if (!Array.isArray(despues.galeria) || !despues.galeria.length) p.push("galeria vacía");
+  else despues.galeria.forEach((g, i) => medio(g, `galeria[${i}]`));
+  return p;
+}
 
 describe("lógica", () => {
   const estadoAntes = {
@@ -113,6 +132,54 @@ describe("lógica", () => {
     });
     assert.deepEqual(overrides({ hostname: "localhost", search: "?api=otro&media=x" }), {});
   });
+
+  it("senalLimite usa AbortSignal.timeout si existe", () => {
+    const senal = { soy: "timeout" };
+    assert.equal(senalLimite(5000, { AbortSignal: { timeout: (ms) => (ms === 5000 ? senal : null) } }), senal);
+  });
+
+  it("senalLimite sin AbortSignal.timeout (iOS 15.4–15.x) usa AbortController + setTimeout", () => {
+    const relojes = [];
+    class Controlador { constructor() { this.signal = { aborted: false }; } abort() { this.signal.aborted = true; } }
+    const g = { AbortSignal: {}, AbortController: Controlador, setTimeout: (fn, ms) => relojes.push([fn, ms]) };
+    const s = senalLimite(25000, g);
+    assert.equal(s.aborted, false);
+    assert.equal(relojes.length, 1);
+    assert.equal(relojes[0][1], 25000);
+    relojes[0][0]();
+    assert.equal(s.aborted, true, "al vencer el tiempo, aborta");
+    assert.equal(senalLimite(1000, {}), undefined, "sin nada de eso: sin límite (no rompe)");
+  });
+
+  it("ahorroDatos: solo con navigator.connection.saveData", () => {
+    assert.equal(ahorroDatos({ connection: { saveData: true } }), true);
+    assert.equal(ahorroDatos({ connection: { saveData: false } }), false);
+    assert.equal(ahorroDatos({}), false);
+    assert.equal(ahorroDatos(undefined), false);
+  });
+
+  it("cuerpoCancun: antes del viaje, el título y el texto de «antes»", () => {
+    const c = cuerpoCancun({ frase: "Trvely llevó…", antes: { titulo: "Diciembre", texto: "Muy pronto, las fotos." }, despues: null });
+    assert.deepEqual(c, { titulo: "Diciembre", parrafos: ["Muy pronto, las fotos."], principal: null, galeria: [] });
+  });
+
+  it("cuerpoCancun: con «despues», la frase solo si es distinta del texto, y el principal y la galería", () => {
+    const principal = { medio: "a", alt: "Llegada" };
+    const galeria = [{ medio: "b", alt: "Playa" }];
+    const base = { frase: "Trvely llevó a Cancún a más de 76 personas", antes: { titulo: "Diciembre", texto: "Muy pronto" } };
+    assert.deepEqual(
+      cuerpoCancun({ ...base, despues: { titulo: "Cancún 2026", texto: "Así fue el viaje.", principal, galeria } }),
+      { titulo: "Cancún 2026", parrafos: ["Trvely llevó a Cancún a más de 76 personas", "Así fue el viaje."], principal, galeria },
+    );
+    assert.deepEqual(
+      cuerpoCancun({ ...base, despues: { titulo: "Cancún 2026", texto: " Trvely llevó a Cancún a más de 76 personas ", principal, galeria } }).parrafos,
+      ["Trvely llevó a Cancún a más de 76 personas"],
+      "no se imprime dos veces",
+    );
+    assert.deepEqual(cuerpoCancun({ ...base, despues: { texto: "Así fue." } }), {
+      titulo: "Diciembre", parrafos: ["Trvely llevó a Cancún a más de 76 personas", "Así fue."], principal: null, galeria: [],
+    });
+  });
 });
 
 describe("contenido", () => {
@@ -187,12 +254,30 @@ describe("contenido", () => {
     assert.equal(DATOS.pasos.length, 3);
   });
 
-  it("destino con 8 fotos del hotel", () => {
+  it("destino con 8 fotos del hotel, cada una { src, alt } con un alt que la describe", () => {
     assert.equal(DATOS.destino.hotel, "Catalonia Bávaro Beach");
     assert.equal(DATOS.destino.fotos.length, 8);
-    for (const u of DATOS.destino.fotos) {
-      assert.match(u, /^https:\/\/media\.trvely\.com\.co\/hoteles\/punta-cana\/catalonia-bavaro-beach\/full\/catalonia-bavaro-beach_\d{3}\.jpg$/);
+    const alts = new Set();
+    for (const f of DATOS.destino.fotos) {
+      assert.deepEqual(Object.keys(f).sort(), ["alt", "src"]);
+      assert.match(f.src, /^https:\/\/media\.trvely\.com\.co\/hoteles\/punta-cana\/catalonia-bavaro-beach\/full\/catalonia-bavaro-beach_\d{3}\.jpg$/);
+      assert.ok(f.alt.trim().length >= 25, `alt corto: ${f.alt}`);
+      assert.doesNotMatch(f.alt, /foto \d+ de \d+/i, "alt genérico");
+      alts.add(f.alt);
     }
+    assert.equal(alts.size, 8, "cada foto con su propio alt");
+  });
+
+  it("cancun.despues: null hasta el viaje; cuando llegue, { titulo, texto, principal: { medio, alt }, galeria: [{ medio, alt }] } con medios que existen", () => {
+    const { despues } = DATOS.cancun;
+    if (despues !== null) assert.deepEqual(problemasDespues(despues, DATOS.media.items), []);
+    // El validador sí detecta los errores (así esta prueba no pasa en vacío cuando llegue el contenido).
+    const [m1, m2] = Object.keys(DATOS.media.items);
+    assert.deepEqual(problemasDespues({ titulo: "Cancún", texto: "Así fue", principal: { medio: m1, alt: "x" }, galeria: [{ medio: m2, alt: "y" }] }, DATOS.media.items), []);
+    assert.deepEqual(problemasDespues({ titulo: "Cancún", texto: "Así fue", principal: { medio: "no-existe", alt: "x" }, galeria: [] }, DATOS.media.items),
+      ["principal: medio «no-existe» no está en DATOS.media.items", "galeria vacía"]);
+    assert.deepEqual(problemasDespues({ texto: "", principal: { medio: m1 }, galeria: [{ medio: m2, alt: " " }] }, DATOS.media.items),
+      ["falta titulo", "falta texto", "principal: falta alt", "galeria[0]: falta alt"]);
   });
 
   it("faq de 5 a 7 preguntas completas", () => {
@@ -262,15 +347,66 @@ describe("html", () => {
     for (const v of videos(html.replace(portada[0], ""))) assert.match(v, /\spreload="none"/, v);
   });
 
-  it("el formulario tiene los 12 campos del cuerpo de separar y la trampa", () => {
+  it("el formulario tiene los 12 campos del cuerpo de separar y la trampa ref_x", () => {
     const form = html.match(/<form\b[\s\S]*?<\/form>/);
     assert.ok(form, "sin <form>");
     for (const n of [
       "nombre", "tipoDoc", "documento", "celular", "correo", "ciudad", "equipo",
-      "adultos", "ninos", "infantes", "aceptaDatos", "aceptaCondiciones", "website",
+      "adultos", "ninos", "infantes", "aceptaDatos", "aceptaCondiciones", "ref_x",
     ]) {
       assert.match(form[0], new RegExp(`\\sname="${n}"`), n);
     }
+    assert.doesNotMatch(form[0], /name="website"/, "website lo llena el autocompletar: la trampa es ref_x");
+  });
+
+  it("la trampa ref_x: fuera de pantalla, aria-hidden, tabindex=-1 y autocomplete=off", () => {
+    const trampa = html.match(/<div class="trampa"[^>]*>[\s\S]*?<\/div>/);
+    assert.ok(trampa, "sin .trampa");
+    assert.match(trampa[0], /^<div class="trampa" aria-hidden="true">/);
+    const input = trampa[0].match(/<input\b[^>]*>/)[0];
+    for (const a of [/\sname="ref_x"/, /\stabindex="-1"/, /\sautocomplete="off"/, /\saria-hidden="true"/]) assert.match(input, a);
+    assert.match(leer("../bca/css/bca.css"), /\.trampa \{ position: absolute; left: -10000px;/);
+  });
+
+  it("pie legal en el HTML, sin depender de JavaScript (y con los textos de DATOS.legal)", () => {
+    const pie = html.match(/<footer\b[\s\S]*?<\/footer>/);
+    assert.ok(pie, "sin <footer>");
+    const l = DATOS.legal;
+    assert.ok(pie[0].includes(`<li>${l.registro}</li>`), "RNT y NIT");
+    assert.ok(pie[0].includes(`<a href="${l.datos.url}" target="_blank" rel="noopener">${l.datos.texto}</a>`), "Ley 1581 con el enlace a la política");
+    assert.ok(pie[0].includes(`<li>${l.escnna}</li>`), "ESCNNA");
+    assert.ok(pie[0].includes(`<p class="pie-lema">${l.lema}</p>`), "lema");
+    for (const s of ["RNT 232640", "NIT 901902687-9", "Ley 1581 de 2012", "Ley 679 de 2001", "Ley 1336 de 2009", "Viaja Fácil, Viaja Trvely"]) assert.ok(pie[0].includes(s), s);
+    const css = leer("../bca/css/bca.css");
+    assert.match(css, /\.pie-legal a \{[^}]*min-height: 2\.75rem/, "enlace del pie de 44 px o más");
+  });
+
+  it("precarga el póster de la portada (el mismo archivo que pinta app.js)", () => {
+    const poster = DATOS.media.base + DATOS.media.items[DATOS.portada.medio].poster;
+    assert.ok(html.includes(`<link rel="preload" as="image" href="${poster}"`), poster);
+  });
+
+  it("«Escribir por WhatsApp» de la vista cerrada lleva el mensaje para Paola", () => {
+    const a = html.match(/<a\b[^>]*id="cerrada-whatsapp"[^>]*>/)[0];
+    assert.ok(a.includes(`href="${enlaceWhatsApp(DATOS.whatsapp.numero, "Hola, Paola. Quiero información sobre el viaje BCA 2027.")}"`), a);
+  });
+
+  it("app.js: Turnstile, tiempo límite, validación, 503, cerrada, despertar y ahorro de datos", () => {
+    const app = leer("../bca/js/app.js");
+    assert.match(app, /action: "separar"/, "el widget lleva action separar (el Worker la revisa)");
+    assert.match(app, /"error-callback":/, "error-callback propio");
+    assert.ok(app.includes("No pudimos cargar la verificación. Recarga la página."));
+    assert.ok(app.includes("marca la casilla de verificación"), "sin token: que marque la casilla");
+    assert.match(app, /if \(tokenEnviado\) reiniciarTurnstile\(\)/, "solo se reinicia si se mandó un token");
+    assert.match(app, /senalLimite\(/, "tiempo límite con respaldo para iOS 15");
+    const marcar = app.slice(app.indexOf("function marcar("), app.indexOf("function pintarValor("));
+    assert.ok(marcar.indexOf("ORDEN.includes(campo)") > 0 && marcar.indexOf("ORDEN.includes(campo)") < marcar.indexOf("$(`#error-${campo}`)"), "valida el nombre del campo antes de usarlo en un selector");
+    assert.match(app, /no_configurado/);
+    assert.ok(app.includes("La separación no está disponible en este momento. Escríbenos por WhatsApp."));
+    assert.match(app, /\$\("#cerrada-whatsapp"\)\.href = enlaceWhatsApp\(/);
+    assert.match(app, /visibilitychange[\s\S]{0,200}cargarEstado\(\)/, "al volver a la pestaña, vuelve a preguntar el estado");
+    assert.match(app, /ahorroDatos\(navigator\)/, "ahorro de datos: los bucles no arrancan solos");
+    assert.doesNotMatch(app, /website/);
   });
 
   it("la página y su código no usan palabras internas", () => {

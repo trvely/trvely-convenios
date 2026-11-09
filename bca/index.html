@@ -22,6 +22,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;900&amp;display=swap">
   <link rel="preload" href="fonts/extenda.otf" as="font" type="font/otf" crossorigin>
+  <link rel="preload" as="image" href="https://media.trvely.com.co/bca/2026/2026_10_16_21_44_09_utc-poster.webp" type="image/webp" fetchpriority="high">
   <link rel="stylesheet" href="css/bca.css">
   <script type="module" src="js/app.js"></script>
 </head>
@@ -124,7 +125,7 @@
           <div class="vista" data-vista="cerrada" hidden>
             <h3>La separación está cerrada</h3>
             <p class="vista-texto">Por ahora no estamos recibiendo separaciones. Si quieres saber si hay cupos, escríbele a Paola, del equipo Trvely.</p>
-            <a class="boton" id="cerrada-whatsapp" href="https://wa.me/573223584982" target="_blank" rel="noopener">Escribir por WhatsApp</a>
+            <a class="boton" id="cerrada-whatsapp" href="https://wa.me/573223584982?text=Hola%2C%20Paola.%20Quiero%20informaci%C3%B3n%20sobre%20el%20viaje%20BCA%202027." target="_blank" rel="noopener">Escribir por WhatsApp</a>
           </div>
 
           <div class="vista" data-vista="sinconexion" hidden>
@@ -244,8 +245,8 @@
             </div>
 
             <div class="trampa" aria-hidden="true">
-              <label for="f-website">No llenes este campo</label>
-              <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">
+              <label for="f-ref_x">No llenes este campo</label>
+              <input id="f-ref_x" name="ref_x" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
             </div>
 
             <div class="turnstile" id="turnstile"></div>
@@ -299,8 +300,12 @@
       </div>
       <p class="pie-gracias" id="pie-gracias"></p>
       <p class="pie-creditos" id="pie-creditos"></p>
-      <ul class="pie-legal" id="pie-legal"></ul>
-      <p class="pie-lema" id="pie-lema"></p>
+      <ul class="pie-legal" id="pie-legal">
+        <li>RNT 232640 · NIT 901902687-9</li>
+        <li><a href="https://trvely.com.co/politicas-de-privacidad-trvely/" target="_blank" rel="noopener">Tratamiento de datos personales: Ley 1581 de 2012</a></li>
+        <li>Trvely rechaza toda forma de explotación y abuso sexual de niñas, niños y adolescentes (ESCNNA). Ley 679 de 2001 y Ley 1336 de 2009.</li>
+      </ul>
+      <p class="pie-lema">Viaja Fácil, Viaja Trvely</p>
     </div>
   </footer>
 

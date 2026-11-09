@@ -454,14 +454,38 @@ export const DATOS = {
     "hero": "https://media.trvely.com.co/hoteles/punta-cana/catalonia-bavaro-beach/hero/catalonia-bavaro-beach_hero.jpg",
     "texto": "Un resort familiar grande en Punta Cana: 682 suites en villas alrededor de un lago, con Kids Club y Teens Club y una piscina infantil con juegos. Queda a unos 20 minutos del aeropuerto de Punta Cana. La tarifa, las fechas y lo que incluye el paquete los informamos más adelante.",
     "fotos": [
-      "https://media.trvely.com.co/hoteles/punta-cana/catalonia-bavaro-beach/full/catalonia-bavaro-beach_002.jpg",
-      "https://media.trvely.com.co/hoteles/punta-cana/catalonia-bavaro-beach/full/catalonia-bavaro-beach_005.jpg",
-      "https://media.trvely.com.co/hoteles/punta-cana/catalonia-bavaro-beach/full/catalonia-bavaro-beach_006.jpg",
-      "https://media.trvely.com.co/hoteles/punta-cana/catalonia-bavaro-beach/full/catalonia-bavaro-beach_012.jpg",
-      "https://media.trvely.com.co/hoteles/punta-cana/catalonia-bavaro-beach/full/catalonia-bavaro-beach_014.jpg",
-      "https://media.trvely.com.co/hoteles/punta-cana/catalonia-bavaro-beach/full/catalonia-bavaro-beach_023.jpg",
-      "https://media.trvely.com.co/hoteles/punta-cana/catalonia-bavaro-beach/full/catalonia-bavaro-beach_043.jpg",
-      "https://media.trvely.com.co/hoteles/punta-cana/catalonia-bavaro-beach/full/catalonia-bavaro-beach_046.jpg"
+      {
+        "src": "https://media.trvely.com.co/hoteles/punta-cana/catalonia-bavaro-beach/full/catalonia-bavaro-beach_002.jpg",
+        "alt": "Familia jugando en la arena blanca de la playa del hotel, con palmeras al fondo"
+      },
+      {
+        "src": "https://media.trvely.com.co/hoteles/punta-cana/catalonia-bavaro-beach/full/catalonia-bavaro-beach_005.jpg",
+        "alt": "Jóvenes y el equipo de animación celebran una partida de futbolín en la sala de juegos"
+      },
+      {
+        "src": "https://media.trvely.com.co/hoteles/punta-cana/catalonia-bavaro-beach/full/catalonia-bavaro-beach_006.jpg",
+        "alt": "Parque infantil cercado, con casitas de juego y toldo, entre las palmeras del hotel"
+      },
+      {
+        "src": "https://media.trvely.com.co/hoteles/punta-cana/catalonia-bavaro-beach/full/catalonia-bavaro-beach_012.jpg",
+        "alt": "Familia sentada en el borde de la piscina, salpicando agua, frente a las villas del hotel"
+      },
+      {
+        "src": "https://media.trvely.com.co/hoteles/punta-cana/catalonia-bavaro-beach/full/catalonia-bavaro-beach_014.jpg",
+        "alt": "Grupo haciendo estiramientos en la playa del hotel, frente al mar"
+      },
+      {
+        "src": "https://media.trvely.com.co/hoteles/punta-cana/catalonia-bavaro-beach/full/catalonia-bavaro-beach_023.jpg",
+        "alt": "Baño de una habitación del hotel, con dos lavamanos y duchas separadas"
+      },
+      {
+        "src": "https://media.trvely.com.co/hoteles/punta-cana/catalonia-bavaro-beach/full/catalonia-bavaro-beach_043.jpg",
+        "alt": "Zona de juegos para niños sobre la arena, con toldos, murales de colores y mesas pequeñas"
+      },
+      {
+        "src": "https://media.trvely.com.co/hoteles/punta-cana/catalonia-bavaro-beach/full/catalonia-bavaro-beach_046.jpg",
+        "alt": "Dos niños corren de la mano por la playa del hotel, junto a las palmeras"
+      }
     ],
     "incluye": [
       "Dos buffets: Gran Caribe y La Palapa, junto a la playa",
