@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="es-CO">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>BCA All Stars × Trvely · Rumbo a República Dominicana 2027</title>
+  <meta name="description" content="La temporada 2026 de BCA All Stars, mes a mes, y el viaje 2027 a Punta Cana con Trvely. Separa tu cupo desde el 18 de diciembre.">
+  <meta name="theme-color" content="#191A1E">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_CO">
+  <meta property="og:site_name" content="Trvely">
+  <meta property="og:url" content="https://convenios.trvely.com.co/bca/">
+  <meta property="og:title" content="BCA All Stars × Trvely · Rumbo a República Dominicana 2027">
+  <meta property="og:description" content="Separa tu cupo desde el 18 de diciembre">
+  <meta property="og:image" content="https://convenios.trvely.com.co/bca/img/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Deportistas de BCA All Stars en competencia, con los logos de Trvely y BCA All Stars">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="img/bca.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;900&amp;display=swap">
+  <link rel="preload" href="fonts/extenda.otf" as="font" type="font/otf" crossorigin>
+  <link rel="stylesheet" href="css/bca.css">
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <a class="saltar" href="#separar">Ir a la separación</a>
+
+  <header class="encabezado mundo-bca">
+    <a class="encabezado-marca" href="https://trvely.com.co/" aria-label="Trvely, ir a trvely.com.co">
+      <img src="img/trvely-claro.svg" alt="Trvely" width="96" height="34">
+    </a>
+    <span class="por" aria-hidden="true">×</span>
+    <img class="escudo" src="img/bca.svg" alt="BCA All Stars" width="38" height="45">
+  </header>
+
+  <main>
+    <section id="portada" class="portada mundo-bca" aria-labelledby="portada-titulo">
+      <button type="button" class="principal portada-medio" id="portada-medio" aria-label="Ver video completo de la rutina">
+        <span class="marco">
+          <video id="portada-video" class="bucle" muted playsinline loop preload="none" aria-hidden="true"></video>
+        </span>
+        <span class="chip"><span class="chip-icono" aria-hidden="true"></span>Ver completo</span>
+      </button>
+      <div class="portada-texto">
+        <h1 id="portada-titulo" class="titulo-portada">
+          <span class="titulo-uno">BCA All Stars × Trvely</span><span class="oculto"> · </span>
+          <span class="titulo-dos">Rumbo a República Dominicana 2027</span>
+        </h1>
+        <div class="portada-estado">
+          <div class="cuenta" data-vista="antes" hidden>
+            <p class="cuenta-lema">La separación abre el 18 de diciembre</p>
+            <div class="cifras" role="timer" aria-label="Tiempo que falta para abrir la separación">
+              <span><b data-u="dias">00</b> días</span>
+              <span><b data-u="horas">00</b> horas</span>
+              <span><b data-u="minutos">00</b> min</span>
+              <span><b data-u="segundos">00</b> seg</span>
+            </div>
+          </div>
+          <p class="portada-linea" data-vista="abierta" hidden>La separación está abierta.</p>
+          <p class="portada-linea" data-vista="cerrada" hidden>La separación está cerrada por ahora.</p>
+        </div>
+        <a class="boton" id="portada-boton" href="#separar">Separa tu cupo</a>
+      </div>
+    </section>
+
+    <section id="temporada" class="temporada mundo-bca" aria-labelledby="temporada-titulo">
+      <nav class="meses" aria-label="Meses de la temporada 2026">
+        <ol id="meses-lista"></ol>
+      </nav>
+      <div class="contenedor">
+        <h2 id="temporada-titulo" class="temporada-titulo">La temporada 2026 de BCA, mes a mes</h2>
+        <div id="capitulos"></div>
+      </div>
+    </section>
+
+    <section id="cancun" class="cancun" aria-labelledby="cancun-titulo">
+      <div class="cancun-panel contenedor">
+        <h2 id="cancun-titulo">Diciembre · Cancún con Trvely</h2>
+        <div id="cancun-cuerpo"></div>
+      </div>
+    </section>
+
+    <section id="destino" class="destino mundo-trvely" aria-labelledby="destino-titulo">
+      <div class="contenedor">
+        <p class="previo">Destino 2027</p>
+        <h2 id="destino-titulo">Catalonia Bávaro Beach</h2>
+        <div id="destino-cuerpo"></div>
+      </div>
+    </section>
+
+    <section id="separar" class="separar mundo-trvely" aria-labelledby="separar-titulo">
+      <div class="contenedor separar-rejilla">
+        <div class="separar-guia">
+          <h2 id="separar-titulo">Separa tu cupo</h2>
+          <p class="separar-lema">$200.000 por persona desde los 2 años. Los infantes, menores de 2 años, no pagan.</p>
+          <ol class="pasos" id="pasos"></ol>
+        </div>
+
+        <div class="zona" id="zona">
+          <p class="aviso" id="aviso-conexion" role="status" hidden>No pudimos conectarnos; intenta de nuevo en un momento</p>
+          <p class="oculto" id="anuncio" aria-live="polite"></p>
+
+          <div class="vista" data-vista="cargando">
+            <p class="vista-texto">Consultando el estado de la separación…</p>
+          </div>
+
+          <div class="vista" data-vista="antes" hidden>
+            <h3>La separación abre el 18 de diciembre</h3>
+            <div class="cuenta cuenta-clara">
+              <div class="cifras" role="timer" aria-label="Tiempo que falta para abrir la separación">
+                <span><b data-u="dias">00</b> días</span>
+                <span><b data-u="horas">00</b> horas</span>
+                <span><b data-u="minutos">00</b> min</span>
+                <span><b data-u="segundos">00</b> seg</span>
+              </div>
+            </div>
+            <p class="oculto" id="cuenta-voz" aria-live="polite"></p>
+            <p class="vista-texto">Ese día el formulario aparece aquí mismo, sin recargar la página.</p>
+          </div>
+
+          <div class="vista" data-vista="cerrada" hidden>
+            <h3>La separación está cerrada</h3>
+            <p class="vista-texto">Por ahora no estamos recibiendo separaciones. Si quieres saber si hay cupos, escríbele a Paola, del equipo Trvely.</p>
+            <a class="boton" id="cerrada-whatsapp" href="https://wa.me/573223584982" target="_blank" rel="noopener">Escribir por WhatsApp</a>
+          </div>
+
+          <div class="vista" data-vista="sinconexion" hidden>
+            <h3>No pudimos ver el estado de la separación</h3>
+            <p class="vista-texto">Revisa tu conexión. La página vuelve a intentarlo sola cada minuto.</p>
+            <button type="button" class="boton-sec" id="reintentar">Intentar de nuevo</button>
+          </div>
+
+          <form class="formulario vista" id="formulario" data-vista="abierta" novalidate hidden aria-labelledby="form-titulo">
+            <h3 id="form-titulo">Tus datos</h3>
+            <p class="vista-texto">Todos los campos son obligatorios. Se llena en unos 2 minutos.</p>
+
+            <div class="campo">
+              <label for="f-nombre">Nombre completo del adulto responsable</label>
+              <input id="f-nombre" name="nombre" type="text" autocomplete="name" maxlength="120" required aria-describedby="error-nombre">
+              <p class="error" id="error-nombre" hidden></p>
+            </div>
+
+            <fieldset class="campo grupo-doc">
+              <legend>Documento</legend>
+              <div class="doc-fila">
+                <div>
+                  <label for="f-tipoDoc">Tipo</label>
+                  <select id="f-tipoDoc" name="tipoDoc" required aria-describedby="error-tipoDoc">
+                    <option value="">Elige el tipo</option>
+                    <option value="CC">CC, cédula de ciudadanía</option>
+                    <option value="CE">CE, cédula de extranjería</option>
+                    <option value="PA">PA, pasaporte</option>
+                    <option value="TI">TI, tarjeta de identidad</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="f-documento">Número</label>
+                  <input id="f-documento" name="documento" type="text" autocomplete="off" maxlength="24" required aria-describedby="error-documento">
+                </div>
+              </div>
+              <p class="error" id="error-tipoDoc" hidden></p>
+              <p class="error" id="error-documento" hidden></p>
+            </fieldset>
+
+            <div class="campo">
+              <label for="f-celular">Celular (WhatsApp)</label>
+              <input id="f-celular" name="celular" type="tel" inputmode="tel" autocomplete="tel" maxlength="24" required aria-describedby="ayuda-celular error-celular">
+              <p class="ayuda" id="ayuda-celular">10 dígitos. Si es de otro país, escríbelo con + y el indicativo.</p>
+              <p class="error" id="error-celular" hidden></p>
+            </div>
+
+            <div class="campo">
+              <label for="f-correo">Correo</label>
+              <input id="f-correo" name="correo" type="email" inputmode="email" autocomplete="email" maxlength="120" required aria-describedby="error-correo">
+              <p class="error" id="error-correo" hidden></p>
+            </div>
+
+            <div class="campo">
+              <label for="f-ciudad">Ciudad</label>
+              <input id="f-ciudad" name="ciudad" type="text" autocomplete="address-level2" maxlength="80" required aria-describedby="error-ciudad">
+              <p class="error" id="error-ciudad" hidden></p>
+            </div>
+
+            <div class="campo">
+              <label for="f-equipo">Equipo BCA del deportista</label>
+              <select id="f-equipo" name="equipo" required aria-describedby="error-equipo">
+                <option value="">Elige el equipo</option>
+              </select>
+              <p class="error" id="error-equipo" hidden></p>
+            </div>
+
+            <fieldset class="campo personas" id="grupo-personas" aria-describedby="error-personas">
+              <legend>¿Cuántas personas viajan?</legend>
+              <div class="contador">
+                <label for="f-adultos">Adultos <span class="ayuda">12 años o más</span></label>
+                <div class="pasador">
+                  <button type="button" class="paso" data-campo="adultos" data-paso="-1" aria-label="Quitar un adulto">−</button>
+                  <input id="f-adultos" name="adultos" type="number" inputmode="numeric" min="1" max="20" step="1" value="1" required aria-describedby="error-adultos error-personas">
+                  <button type="button" class="paso" data-campo="adultos" data-paso="1" aria-label="Agregar un adulto">+</button>
+                </div>
+              </div>
+              <p class="error" id="error-adultos" hidden></p>
+              <div class="contador">
+                <label for="f-ninos">Niños <span class="ayuda">de 2 a 11 años</span></label>
+                <div class="pasador">
+                  <button type="button" class="paso" data-campo="ninos" data-paso="-1" aria-label="Quitar un niño">−</button>
+                  <input id="f-ninos" name="ninos" type="number" inputmode="numeric" min="0" max="20" step="1" value="0" required aria-describedby="error-ninos error-personas">
+                  <button type="button" class="paso" data-campo="ninos" data-paso="1" aria-label="Agregar un niño">+</button>
+                </div>
+              </div>
+              <p class="error" id="error-ninos" hidden></p>
+              <div class="contador">
+                <label for="f-infantes">Infantes <span class="ayuda">menores de 2 años a la fecha de regreso; no pagan separación</span></label>
+                <div class="pasador">
+                  <button type="button" class="paso" data-campo="infantes" data-paso="-1" aria-label="Quitar un infante">−</button>
+                  <input id="f-infantes" name="infantes" type="number" inputmode="numeric" min="0" max="20" step="1" value="0" required aria-describedby="error-infantes error-personas">
+                  <button type="button" class="paso" data-campo="infantes" data-paso="1" aria-label="Agregar un infante">+</button>
+                </div>
+              </div>
+              <p class="error" id="error-infantes" hidden></p>
+              <p class="error" id="error-personas" hidden></p>
+            </fieldset>
+
+            <div class="valor" aria-live="polite">
+              <p class="valor-titulo">Valor de la separación</p>
+              <p class="valor-total" id="valor-total">$ 200.000</p>
+              <p class="valor-detalle" id="valor-detalle">1 persona × $ 200.000.</p>
+            </div>
+
+            <div class="campo casilla">
+              <input id="f-aceptaDatos" name="aceptaDatos" type="checkbox" required aria-describedby="error-aceptaDatos">
+              <label for="f-aceptaDatos">Autorizo a Trvely a tratar mis datos personales para gestionar mi separación y mi viaje, según la Ley 1581 de 2012 y su <a href="https://trvely.com.co/politicas-de-privacidad-trvely/" target="_blank" rel="noopener">política de privacidad</a>.</label>
+              <p class="error" id="error-aceptaDatos" hidden></p>
+            </div>
+
+            <div class="campo casilla">
+              <input id="f-aceptaCondiciones" name="aceptaCondiciones" type="checkbox" required aria-describedby="error-aceptaCondiciones">
+              <label for="f-aceptaCondiciones" id="texto-condiciones">Acepto las condiciones de la separación.</label>
+              <button type="button" class="enlace" id="abrir-condiciones" aria-haspopup="dialog">Ver condiciones completas.</button>
+              <p class="error" id="error-aceptaCondiciones" hidden></p>
+            </div>
+
+            <div class="trampa" aria-hidden="true">
+              <label for="f-website">No llenes este campo</label>
+              <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">
+            </div>
+
+            <div class="turnstile" id="turnstile"></div>
+
+            <button type="submit" class="boton boton-ancho" id="enviar">Separar mi cupo</button>
+            <p class="form-estado" id="form-estado" role="status" aria-live="polite"></p>
+          </form>
+
+          <div class="vista resultado" data-vista="resultado" id="vista-resultado" tabindex="-1" hidden aria-labelledby="resultado-titulo">
+            <h3 id="resultado-titulo">Tu separación quedó registrada</h3>
+            <p class="vista-texto" id="r-intro"></p>
+            <dl class="ficha">
+              <div><dt>Referencia</dt><dd class="referencia" id="r-referencia"></dd></div>
+              <div><dt>Valor a pagar</dt><dd class="monto" id="r-valor"></dd></div>
+              <div><dt>Personas</dt><dd id="r-personas"></dd></div>
+            </dl>
+            <ol class="pasos-pago">
+              <li>
+                <h4>Paga con la llave Bre-B</h4>
+                <p class="llave"><span id="r-llave">0081973919</span>
+                  <button type="button" class="boton-sec" id="copiar">Copiar</button></p>
+                <p class="oculto" id="copiar-estado" aria-live="polite"></p>
+                <p id="r-banco">Bancolombia, a nombre de Trvely S.A.S.</p>
+                <p>También puedes pagar por PSE o en las <a id="r-medios" href="https://trvely.com.co/medios-de-pago/" target="_blank" rel="noopener">cuentas oficiales de Trvely</a>. No pagues a cuentas personales.</p>
+              </li>
+              <li>
+                <h4>Envía el comprobante por WhatsApp</h4>
+                <p>A Paola, del equipo Trvely, con tu referencia. El mensaje ya va escrito.</p>
+                <a class="boton boton-ancho" id="r-whatsapp" href="https://wa.me/573223584982" target="_blank" rel="noopener">Enviar comprobante por WhatsApp</a>
+              </li>
+            </ol>
+            <p class="vista-texto">Trvely verifica tu pago y te confirma el cupo por escrito, citando tu referencia.</p>
+            <button type="button" class="boton-sec" id="otra">Hacer otra separación</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="contenedor preguntas">
+        <h3>Preguntas frecuentes</h3>
+        <div id="faq"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie mundo-trvely">
+    <div class="contenedor">
+      <div class="pie-logos">
+        <img src="img/trvely-oscuro.svg" alt="Trvely" width="96" height="34" loading="lazy">
+        <span class="por" aria-hidden="true">×</span>
+        <img class="escudo" src="img/bca.svg" alt="BCA All Stars" width="38" height="45" loading="lazy">
+      </div>
+      <p class="pie-gracias" id="pie-gracias"></p>
+      <p class="pie-creditos" id="pie-creditos"></p>
+      <ul class="pie-legal" id="pie-legal"></ul>
+      <p class="pie-lema" id="pie-lema"></p>
+    </div>
+  </footer>
+
+  <dialog id="condiciones" class="dialogo-condiciones" aria-labelledby="condiciones-titulo">
+    <div class="dialogo-cabeza">
+      <h2 id="condiciones-titulo">Condiciones de la separación</h2>
+      <button type="button" class="cerrar" data-cerrar aria-label="Cerrar las condiciones">×</button>
+    </div>
+    <ol id="condiciones-lista"></ol>
+    <div class="dialogo-pie"><button type="button" class="boton-sec" data-cerrar>Cerrar</button></div>
+  </dialog>
+
+  <dialog id="visor" class="visor mundo-bca" aria-label="Foto o video ampliado">
+    <button type="button" class="cerrar" data-cerrar aria-label="Cerrar">×</button>
+    <figure class="visor-figura">
+      <img id="visor-img" alt="" hidden>
+      <span class="marco" id="visor-marco" hidden>
+        <video id="visor-video" muted playsinline preload="none" controls></video>
+      </span>
+      <figcaption id="visor-texto"></figcaption>
+    </figure>
+  </dialog>
+
+  <noscript><p class="sin-js">Para ver la temporada y separar tu cupo, activa JavaScript en tu navegador.</p></noscript>
+</body>
+</html>

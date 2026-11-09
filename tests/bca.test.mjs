@@ -1,5 +1,6 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { DATOS } from "../bca/js/datos.js";
 import {
   VALOR_PERSONA,
@@ -217,5 +218,64 @@ describe("ajustes de contenido", () => {
     assert.ok(DATOS.destino.texto.startsWith("Un resort familiar grande en Punta Cana"));
     assert.doesNotMatch(DATOS.condiciones.corto, /Ver condiciones completas/);
     assert.ok(DATOS.condiciones.corto.endsWith("saldo a favor por 12 meses."));
+  });
+});
+
+describe("html", () => {
+  const leer = (ruta) => {
+    try {
+      return readFileSync(new URL(ruta, import.meta.url), "utf8");
+    } catch {
+      return "";
+    }
+  };
+  const html = leer("../bca/index.html");
+  const videos = (texto) => texto.match(/<video\b[^>]*>/g) || [];
+
+  it("existen las secciones y los diálogos", () => {
+    for (const id of ["portada", "temporada", "cancun", "destino", "separar", "condiciones", "visor"]) {
+      assert.match(html, new RegExp(`\\sid="${id}"`), id);
+    }
+    assert.match(html, /<dialog\b[^>]*\bid="condiciones"/);
+    assert.match(html, /<dialog\b[^>]*\bid="visor"/);
+    assert.match(html, /<nav\b[^>]*class="[^"]*\bmeses\b/);
+  });
+
+  it("título y metadatos para compartir", () => {
+    assert.match(html, /<title>BCA All Stars × Trvely · Rumbo a República Dominicana 2027<\/title>/);
+    assert.match(html, /<meta property="og:title" content="BCA All Stars × Trvely · Rumbo a República Dominicana 2027">/);
+    assert.match(html, /<meta property="og:description" content="Separa tu cupo desde el 18 de diciembre">/);
+    assert.match(html, /<meta property="og:image" content="https:\/\/convenios\.trvely\.com\.co\/bca\/img\/og\.jpg">/);
+  });
+
+  it("todo <video> lleva muted y playsinline", () => {
+    assert.ok(videos(html).length >= 1, "sin videos");
+    for (const v of videos(html)) {
+      assert.match(v, /\smuted\b/, v);
+      assert.match(v, /\splaysinline\b/, v);
+    }
+  });
+
+  it("fuera de #portada ningún <video> precarga", () => {
+    const portada = html.match(/<section\b[^>]*\bid="portada"[\s\S]*?<\/section>/);
+    assert.ok(portada, "sin #portada");
+    for (const v of videos(html.replace(portada[0], ""))) assert.match(v, /\spreload="none"/, v);
+  });
+
+  it("el formulario tiene los 12 campos del cuerpo de separar y la trampa", () => {
+    const form = html.match(/<form\b[\s\S]*?<\/form>/);
+    assert.ok(form, "sin <form>");
+    for (const n of [
+      "nombre", "tipoDoc", "documento", "celular", "correo", "ciudad", "equipo",
+      "adultos", "ninos", "infantes", "aceptaDatos", "aceptaCondiciones", "website",
+    ]) {
+      assert.match(form[0], new RegExp(`\\sname="${n}"`), n);
+    }
+  });
+
+  it("la página y su código no usan palabras internas", () => {
+    const codigo = html + leer("../bca/js/app.js");
+    assert.ok(codigo.length > 1000);
+    assert.doesNotMatch(codigo, /\b(netas?|comisi[oó]n(es)?|utilidad|Price|econ[oó]mic[oa]|proveedor(es)?)\b/i);
   });
 });
