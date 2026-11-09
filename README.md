@@ -47,6 +47,25 @@ Bogotá, traslados aeropuerto–hotel–aeropuerto, alojamiento, alimentación t
 Playa Barú. Es una tarifa **desde**: fechas, inventario aéreo y hotelero, equipaje, acomodación,
 edades, categoría de habitación y condiciones finales se confirman en la cotización de Trvely.
 
+## Convenios empresariales · Caribe 2027
+
+Réplica de la landing Catalonia de Coopercar, sin marca Coopercar, para empresas aliadas. Hay una
+página por contacto comercial; cada una lleva su nombre y su WhatsApp:
+
+| Página | Contacto |
+|---|---|
+| [`/alianzas/diana-gonzalez/`](https://convenios.trvely.com.co/alianzas/diana-gonzalez/) | Diana González · Líder comercial |
+| [`/alianzas/monica-gonzalez/`](https://convenios.trvely.com.co/alianzas/monica-gonzalez/) | Mónica Lucía González Fonseca |
+| [`/alianzas/luz-marina-rodriguez/`](https://convenios.trvely.com.co/alianzas/luz-marina-rodriguez/) | Luz Marina Rodríguez Cuervo |
+| [`/alianzas/monica-gongora/`](https://convenios.trvely.com.co/alianzas/monica-gongora/) | Mónica Góngora |
+
+- Los contactos viven en `app/alianzas/asesoras.ts`; para sumar uno, se agrega ahí, se crea su
+  carpeta en `app/alianzas/<slug>/page.tsx` y se suma el slug en `scripts/build-github-pages.mjs`.
+- Tarifas, hoteles y fechas salen de `app/data/catalonia.ts`, la misma fuente de la página de
+  Coopercar: un cambio de tarifa se hace una sola vez.
+- Las páginas llevan `noindex`: se comparten por enlace y no exponen el celular en buscadores.
+- La dirección, el conjunto y el sector del informe interno no se publican.
+
 Desarrollo y validación:
 
 ```bash

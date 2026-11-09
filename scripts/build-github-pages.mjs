@@ -9,6 +9,8 @@ const clientDir = path.join(projectRoot, "dist", "client");
 const manifestPath = path.join(projectRoot, "dist", "server", "vinext-prerender.json");
 const buildStartedAt = Date.now();
 const productRoutes = ["coral-costa-caribe", "cartagena-plaza", "cartagena-dubai"];
+// Convenios empresariales: una página por contacto comercial (app/alianzas/asesoras.ts).
+const alianzaRoutes = ["diana-gonzalez", "monica-gonzalez", "luz-marina-rodriguez", "monica-gongora"];
 
 const build = spawnSync(process.execPath, [vinextCli, "build"], {
   cwd: projectRoot,
@@ -26,11 +28,13 @@ try {
     stat(manifestPath),
     stat(path.join(clientDir, "index.html")),
     ...productRoutes.map((route) => stat(path.join(clientDir, "coopercar", `${route}.html`))),
+    ...alianzaRoutes.map((route) => stat(path.join(clientDir, "alianzas", `${route}.html`))),
   ]);
   const manifest = JSON.parse(manifestText);
   exportIsComplete =
     manifest.routes?.some((route) => route.route === "/" && route.status === "rendered") &&
     productRoutes.every((productRoute) => manifest.routes?.some((route) => route.route === `/coopercar/${productRoute}` && route.status === "rendered")) &&
+    alianzaRoutes.every((alianzaRoute) => manifest.routes?.some((route) => route.route === `/alianzas/${alianzaRoute}` && route.status === "rendered")) &&
     manifestStats.mtimeMs >= buildStartedAt - 1000 &&
     htmlStats.mtimeMs >= buildStartedAt - 1000 &&
     productHtmlStats.every((stats) => stats.mtimeMs >= buildStartedAt - 1000) &&
@@ -61,4 +65,15 @@ await Promise.all([
   writeFile(path.join(clientDir, ".nojekyll"), "", "utf8"),
 ]);
 
+const alianzaDir = path.join(clientDir, "alianzas");
+await Promise.all(alianzaRoutes.map((route) => mkdir(path.join(alianzaDir, route), { recursive: true })));
+await Promise.all([
+  copyFile(path.join(clientDir, "og-real.jpg"), path.join(alianzaDir, "og-real.jpg")),
+  ...alianzaRoutes.flatMap((route) => [
+    copyFile(path.join(alianzaDir, `${route}.html`), path.join(alianzaDir, route, "index.html")),
+    copyFile(path.join(alianzaDir, `${route}.rsc`), path.join(alianzaDir, route, "index.rsc")),
+  ]),
+]);
+
 console.log(`[publicación] Paquetes listos en dist/client/coopercar/ (${productRoutes.join(", ")}).`);
+console.log(`[publicación] Convenios empresariales listos en dist/client/alianzas/ (${alianzaRoutes.join(", ")}).`);

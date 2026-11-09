@@ -141,3 +141,46 @@ test("protects hotel selection with age, access and room-category rules", async 
   assert.match(html, /tarifa de menores no se calcula automáticamente/i);
   assert.match(html, /Privileged no viene en todas/i);
 });
+
+const alianzas = [
+  { slug: "diana-gonzalez", name: "Diana González", firstName: "Diana", role: "Líder comercial", phone: "573192673482", display: "+57 319 267 3482" },
+  { slug: "monica-gonzalez", name: "Mónica Lucía González Fonseca", firstName: "Mónica", role: "Equipo comercial Trvely", phone: "573013489910", display: "+57 301 348 9910" },
+  { slug: "luz-marina-rodriguez", name: "Luz Marina Rodríguez Cuervo", firstName: "Luz Marina", role: "Equipo comercial Trvely", phone: "573165258951", display: "+57 316 525 8951" },
+  { slug: "monica-gongora", name: "Mónica Góngora", firstName: "Mónica", role: "Equipo comercial Trvely", phone: "573053682283", display: "+57 305 368 2283" },
+];
+const otherPhones = ["573233916413", ...alianzas.map((alianza) => alianza.phone)];
+
+for (const alianza of alianzas) {
+  test(`publishes the business-agreements page for ${alianza.name}`, async () => {
+    const response = await render(`/alianzas/${alianza.slug}`);
+    assert.equal(response.status, 200);
+    const html = await response.text();
+
+    assert.match(html, /Trvely Convenios · Empresas aliadas/);
+    assert.match(html, /BENEFICIO EXCLUSIVO PARA EMPRESAS ALIADAS DE TRVELY/);
+    assert.match(html, /Tarifas de convenio disponibles/);
+    assert.match(html, /SIMULADOR DE CONVENIO/);
+    assert.match(html, /Tu Caribe 2027/);
+    assert.match(html, /\$\s*4\.974\.990/);
+    assert.match(html, new RegExp(alianza.name));
+    assert.match(html, new RegExp(alianza.role));
+    assert.ok(html.includes(alianza.display), `falta el celular visible ${alianza.display}`);
+    assert.ok(html.includes(`wa.me/${alianza.phone}?text=Hola%2C%20${encodeURIComponent(alianza.firstName)}`), "el WhatsApp no saluda al contacto correcto");
+    assert.match(html, /convenios%20empresariales%20de%20Trvely/);
+    assert.match(html, /<meta name="robots" content="noindex, nofollow"/);
+    assert.ok(html.includes(`https://convenios.trvely.com.co/alianzas/${alianza.slug}/`), "falta la URL canónica");
+
+    // Sin rastro del convenio Coopercar ni de otros contactos. El único «coopercar» permitido
+    // es la ruta técnica de los assets compartidos (assetPrefix /coopercar/_next).
+    assert.doesNotMatch(html.replaceAll("/coopercar/_next/", ""), /coopercar|asociado\(a\)/i);
+    for (const phone of otherPhones.filter((phone) => phone !== alianza.phone)) {
+      assert.doesNotMatch(html, new RegExp(phone));
+    }
+    // Las direcciones del informe interno no se publican.
+    assert.doesNotMatch(html, /Calle 4C|Carrera 70D|Calle 16 #6|Calle 35 #34|Conjunto|Soacha|Cajicá|Bonavista/);
+
+    const exported = await readFile(new URL(`../dist/client/alianzas/${alianza.slug}/index.html`, import.meta.url), "utf8");
+    assert.match(exported, new RegExp(alianza.name));
+    assert.ok(exported.includes(`wa.me/${alianza.phone}`), "el HTML exportado no trae el WhatsApp del contacto");
+  });
+}
