@@ -224,6 +224,7 @@ describe("contenido", () => {
 
   it("condiciones: 15 puntos y texto corto", () => {
     assert.equal(DATOS.condiciones.completo.length, 15);
+    assert.doesNotMatch(DATOS.condiciones.completo[10], /visa|saldo a favor/, "condiciones v003: el punto 11 ya no habla de visa (Jonathan, 9-nov)");
     assert.ok(DATOS.condiciones.completo[0].startsWith("Quiénes. TRVELY S.A.S., NIT 901.902.687-9, RNT 232640"));
     for (const p of DATOS.condiciones.completo) assert.doesNotMatch(p, /\*\*|\n/);
     assert.ok(
