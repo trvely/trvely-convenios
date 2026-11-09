@@ -9,7 +9,7 @@ const FASES = ["antes", "abierta", "cerrada"];
 // Hora del servidor = `ahora` del servidor + tiempo local transcurrido desde la carga.
 // Nunca se usa el reloj absoluto del teléfono.
 export function ahoraServidor(estado, cargadoEn, relojLocal) {
-  return new Date(Date.parse(estado.ahora) + (relojLocal - cargadoEn));
+  return new Date(Date.parse(estado.ahora) + Math.max(0, relojLocal - cargadoEn));
 }
 
 export function fase(estado, cargadoEn, relojLocal) {
@@ -20,7 +20,8 @@ export function fase(estado, cargadoEn, relojLocal) {
 }
 
 export function restante(abre, ahora) {
-  const total = Math.max(0, Math.floor((Date.parse(abre) - ahora.getTime()) / 1000));
+  const bruto = Math.floor((Date.parse(abre) - ahora.getTime()) / 1000);
+  const total = Number.isFinite(bruto) ? Math.max(0, bruto) : 0;
   return {
     dias: Math.floor(total / 86400),
     horas: Math.floor((total % 86400) / 3600),
@@ -31,7 +32,7 @@ export function restante(abre, ahora) {
 
 // Los infantes (<2 años) no pagan.
 export function valor(adultos, ninos) {
-  return (adultos + ninos) * VALOR_PERSONA;
+  return (Number(adultos) + Number(ninos)) * VALOR_PERSONA;
 }
 
 export function pesos(n) {

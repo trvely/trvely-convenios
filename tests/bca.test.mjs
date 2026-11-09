@@ -60,6 +60,18 @@ describe("lógica", () => {
     assert.equal(pesos(200000), "$ 200.000");
   });
 
+  it("valor acepta texto del formulario", () => {
+    assert.equal(valor("2", "1"), 600000);
+  });
+
+  it("restante da ceros con fecha inválida", () => {
+    assert.deepEqual(restante("x", new Date()), { dias: 0, horas: 0, minutos: 0, segundos: 0 });
+  });
+
+  it("ahoraServidor no retrocede si el reloj va hacia atrás", () => {
+    assert.equal(ahoraServidor(estadoAntes, 5000, 1000).toISOString(), new Date(estadoAntes.ahora).toISOString());
+  });
+
   it("mensajeWhatsApp", () => {
     const base = {
       referencia: "BCA-123",
