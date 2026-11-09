@@ -341,6 +341,12 @@ button:focus-visible,a:focus-visible,summary:focus-visible { outline:3px solid #
 @media (prefers-reduced-motion:reduce) { html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important} }
 
 /* Convenios empresariales (app/alianzas): tarjeta del contacto comercial */
+/* Convenios empresariales: segunda invitación (otros productos) debajo de la del contacto comercial. */
+.asesora-invitation + .alianza-productos { margin-top:52px; }
+.coral-invitation>.alianza-productos-links { min-width:230px; display:grid; gap:8px; }
+.alianza-productos-links>a { min-height:42px; padding:0 18px; display:flex; align-items:center; justify-content:space-between; color:white; background:#8a0f36; border-radius:999px; font-size:10px; font-weight:800; }
+.alianza-productos-links>a+a { color:#8a0f36; background:white; border:1px solid #e4c7cf; }
+@media (max-width:700px) { .asesora-invitation + .alianza-productos{margin-top:46px}.coral-invitation>.alianza-productos-links{min-width:0;width:100%} }
 .asesora-invitation { width:min(1180px,calc(100% - 40px)); margin:42px auto -38px; padding:25px 27px; display:flex; align-items:center; justify-content:space-between; gap:35px; background:linear-gradient(115deg,#fbeef2,#fff8ec); border:1px solid #efd3db; border-radius:20px; box-shadow:0 16px 38px rgba(138,15,54,.08); }
 .asesora-invitation-person { display:flex; align-items:center; gap:18px; }
 .asesora-avatar { width:58px; height:58px; flex:none; display:grid; place-items:center; color:white; background:#8a0f36; border-radius:50%; font-family:var(--font-display); font-size:22px; font-weight:700; letter-spacing:.02em; }

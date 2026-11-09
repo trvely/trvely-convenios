@@ -59,10 +59,17 @@ página por contacto comercial; cada una lleva su nombre y su WhatsApp:
 | [`/alianzas/luz-marina-rodriguez/`](https://convenios.trvely.com.co/alianzas/luz-marina-rodriguez/) | Luz Marina Rodríguez Cuervo |
 | [`/alianzas/monica-gongora/`](https://convenios.trvely.com.co/alianzas/monica-gongora/) | Mónica Góngora |
 
-- Los contactos viven en `app/alianzas/asesoras.ts`; para sumar uno, se agrega ahí, se crea su
-  carpeta en `app/alianzas/<slug>/page.tsx` y se suma el slug en `scripts/build-github-pages.mjs`.
-- Tarifas, hoteles y fechas salen de `app/data/catalonia.ts`, la misma fuente de la página de
-  Coopercar: un cambio de tarifa se hace una sola vez.
+Como en Coopercar, cada contacto tiene además el menú «Convenios hoteleros» y tres páginas de
+producto con su nombre y su WhatsApp: `/alianzas/<slug>/coral-costa-caribe/`,
+`/alianzas/<slug>/cartagena-plaza/` y `/alianzas/<slug>/cartagena-dubai/` (por ejemplo,
+[`Cartagena Plaza con Diana`](https://convenios.trvely.com.co/alianzas/diana-gonzalez/cartagena-plaza/)).
+
+- Los contactos viven en `app/alianzas/asesoras.ts`; para sumar uno, se agrega ahí, se crean su
+  carpeta `app/alianzas/<slug>/page.tsx` y las de sus tres productos, y se suma el slug en
+  `scripts/build-github-pages.mjs`.
+- Tarifas, hoteles y fechas salen de `app/data/catalonia.ts` y `app/data/cartagena.ts`, las mismas
+  fuentes de Coopercar: un cambio de tarifa se hace una sola vez. Coral Costa Caribe y Cartagena
+  reciben la marca y el contacto por `ConvenioBranding` (`app/components/branding.ts`).
 - Las páginas llevan `noindex`: se comparten por enlace y no exponen el celular en buscadores.
 - La dirección, el conjunto y el sector del informe interno no se publican.
 

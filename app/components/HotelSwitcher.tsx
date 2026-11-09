@@ -1,5 +1,9 @@
 type HotelSwitcherProps = {
   current: "catalonia" | "coral" | "cartagena-plaza" | "cartagena-dubai";
+  /** Raíz del convenio («/coopercar/» o «/alianzas/<contacto>/»): los cuatro enlaces cuelgan de aquí. */
+  base?: string;
+  /** Encabezado del panel. */
+  heading?: string;
 };
 
 const hotelOptions = [
@@ -7,7 +11,7 @@ const hotelOptions = [
     id: "catalonia",
     name: "Convenio Catalonia",
     detail: "4 propiedades para elegir",
-    href: "/coopercar/",
+    path: "",
     mark: "C",
     external: false,
   },
@@ -15,7 +19,7 @@ const hotelOptions = [
     id: "coral",
     name: "Convenio Coral Costa Caribe",
     detail: "Juan Dolio · 4 noches",
-    href: "/coopercar/coral-costa-caribe/",
+    path: "coral-costa-caribe/",
     mark: "CC",
     external: false,
   },
@@ -23,7 +27,7 @@ const hotelOptions = [
     id: "cartagena-plaza",
     name: "Convenio Cartagena Plaza",
     detail: "3 noches desde $1.499.999",
-    href: "/coopercar/cartagena-plaza/",
+    path: "cartagena-plaza/",
     mark: "CP",
     external: false,
   },
@@ -31,13 +35,13 @@ const hotelOptions = [
     id: "cartagena-dubai",
     name: "Convenio Cartagena Dubái",
     detail: "3 noches desde $1.499.999",
-    href: "/coopercar/cartagena-dubai/",
+    path: "cartagena-dubai/",
     mark: "CD",
     external: false,
   },
 ] as const;
 
-export default function HotelSwitcher({ current }: HotelSwitcherProps) {
+export default function HotelSwitcher({ current, base = "/coopercar/", heading = "COOPERCAR · PRODUCTOS DISPONIBLES" }: HotelSwitcherProps) {
   return (
     <details className="hotel-switcher">
       <summary aria-label="Abrir menú de convenios hoteleros. Hay 4 opciones disponibles">
@@ -49,7 +53,7 @@ export default function HotelSwitcher({ current }: HotelSwitcherProps) {
       </summary>
       <div className="hotel-switcher-panel">
         <div className="hotel-switcher-heading">
-          <small>COOPERCAR · PRODUCTOS DISPONIBLES</small>
+          <small>{heading}</small>
           <strong>Elige tu convenio</strong>
         </div>
         {hotelOptions.map((hotel) => {
@@ -58,7 +62,7 @@ export default function HotelSwitcher({ current }: HotelSwitcherProps) {
             <a
               key={hotel.id}
               className={isCurrent ? "hotel-switcher-option active" : "hotel-switcher-option"}
-              href={hotel.href}
+              href={`${base}${hotel.path}`}
               aria-current={isCurrent ? "page" : undefined}
               target={hotel.external ? "_blank" : undefined}
               rel={hotel.external ? "noreferrer" : undefined}

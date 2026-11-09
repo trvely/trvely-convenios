@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import { formatMoney, getInstallments, getStartingRate, hotels, roomGuidance, travelDates } from "../data/catalonia";
+import HotelSwitcher from "../components/HotelSwitcher";
 import type { Asesora } from "./asesoras";
 
 // Réplica de la landing Catalonia · Caribe 2027 de Coopercar, presentada como convenio
@@ -107,6 +108,7 @@ export default function AlianzaExperience({ asesora }: { asesora: Asesora }) {
           <span className="partner-lockup"><small>CONVENIOS</small>EMPRESARIALES</span>
         </a>
         <div className="header-menu-group">
+          <HotelSwitcher current="catalonia" base={`/alianzas/${asesora.slug}/`} heading="CONVENIOS EMPRESARIALES · PRODUCTOS DISPONIBLES" />
           <nav className="section-nav" aria-label="Secciones del convenio">
             <a href="#fechas">Fechas</a><a href="#hoteles">Hoteles</a><a href="#pagos">Plan de pagos</a>
           </nav>
@@ -149,6 +151,15 @@ export default function AlianzaExperience({ asesora }: { asesora: Asesora }) {
           <div><span>TU CONTACTO EN TRVELY</span><strong>{asesora.name}</strong><p>{asesora.role} · WhatsApp {asesora.phoneDisplay}</p></div>
         </div>
         <a href={greetingUrl} target="_blank" rel="noreferrer">Escribir a {asesora.firstName} <span>↗</span></a>
+      </aside>
+
+      <aside className="coral-invitation alianza-productos" aria-label="Otros planes del convenio">
+        <div><span>TAMBIÉN EN EL CONVENIO</span><strong>Juan Dolio y Cartagena</strong><p>Coral Costa Caribe: 4 noches por $3.600.000 por persona y separación desde $200.000. Cartagena Plaza y Cartagena Dubái: 3 noches desde $1.499.999 con vuelos desde Bogotá, todo incluido y tour a Playa Barú.</p></div>
+        <div className="alianza-productos-links">
+          <a href={`/alianzas/${asesora.slug}/coral-costa-caribe/`}>Coral Costa Caribe <span>→</span></a>
+          <a href={`/alianzas/${asesora.slug}/cartagena-plaza/`}>Cartagena Plaza <span>→</span></a>
+          <a href={`/alianzas/${asesora.slug}/cartagena-dubai/`}>Cartagena Dubái <span>→</span></a>
+        </div>
       </aside>
 
       <section className="date-preview" id="fechas">

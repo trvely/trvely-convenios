@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import type { ConvenioBranding } from "../components/branding";
+import { cartagenaDubai, cartagenaPlaza } from "../data/cartagena";
 
 // Contactos comerciales de las páginas de convenios empresariales.
 // Fuente: «Informe de ubicación – Equipo Star Sellers» (7-nov-2026).
@@ -80,5 +82,62 @@ export function alianzaMetadata(asesora: Asesora): Metadata {
       description: "Cuatro resorts Catalonia. Separa con $200.000 por persona.",
       images: [ogImage],
     },
+  };
+}
+
+// ---------------------------------------------------------------- Productos del convenio (Coral y Cartagena)
+
+/** Marca de las páginas de producto cuando las atiende una comercial: su WhatsApp, su nombre y su menú. */
+export function alianzaBranding(asesora: Asesora): ConvenioBranding {
+  return {
+    basePath: `/alianzas/${asesora.slug}/`,
+    homeAria: "Volver a los convenios empresariales de Trvely",
+    lockup: "CONVENIOS EMPRESARIALES",
+    label: "CONVENIO EMPRESARIAL",
+    kicker: "CONVENIO EMPRESARIAL",
+    switcherHeading: "CONVENIOS EMPRESARIALES · PRODUCTOS DISPONIBLES",
+    program: "empresarial",
+    packageLabel: "del convenio",
+    whatsapp: asesora.whatsapp,
+    greeting: `Hola, ${asesora.firstName}. Te escribo desde la página de convenios empresariales de Trvely.`,
+    contactName: asesora.firstName,
+    contactLine: `Te atiende ${asesora.name} · ${asesora.phoneDisplay}`,
+    requestTo: `a ${asesora.firstName}`,
+    requestPhrase: "Quiero solicitarte",
+  };
+}
+
+export const productosAlianza = {
+  "coral-costa-caribe": {
+    title: "Coral Costa Caribe 2027 · Trvely Convenios empresariales",
+    description: "Cuatro salidas a Coral Costa Caribe en Juan Dolio. Plan de 4 noches por $3.600.000 por persona y separación desde $200.000.",
+    image: { url: "https://trvely.com.co/wp-content/uploads/2025/09/Coral-Costa-Caribe-150.webp", width: 1600, height: 1067, alt: "Playa del Coral Costa Caribe en Juan Dolio" },
+  },
+  "cartagena-plaza": {
+    title: "Cartagena Plaza · Convenios empresariales | Trvely",
+    description: "Tres noches en Cartagena Plaza desde $1.499.999 por persona con vuelos desde Bogotá, traslados, todo incluido y tour a Playa Barú.",
+    image: { url: cartagenaPlaza.hero.src, width: 1600, height: 1000, alt: cartagenaPlaza.hero.alt },
+  },
+  "cartagena-dubai": {
+    title: "Cartagena Dubai · Convenios empresariales | Trvely",
+    description: "Tres noches en Cartagena Dubai desde $1.499.999 por persona con vuelos desde Bogotá, traslados, todo incluido y tour a Playa Barú.",
+    image: { url: cartagenaDubai.hero.src, width: 1600, height: 1000, alt: cartagenaDubai.hero.alt },
+  },
+} as const;
+
+export type ProductoAlianza = keyof typeof productosAlianza;
+
+export function alianzaProductMetadata(asesora: Asesora, producto: ProductoAlianza): Metadata {
+  const p = productosAlianza[producto];
+  const url = `https://convenios.trvely.com.co/alianzas/${asesora.slug}/${producto}/`;
+  const description = `${p.description} Te atiende ${asesora.name}.`;
+  return {
+    metadataBase: new URL(url),
+    title: p.title,
+    description,
+    robots: { index: false, follow: false },
+    alternates: { canonical: url },
+    openGraph: { title: p.title, description, type: "website", locale: "es_CO", url, images: [p.image] },
+    twitter: { card: "summary_large_image", title: p.title, description, images: [p.image.url] },
   };
 }

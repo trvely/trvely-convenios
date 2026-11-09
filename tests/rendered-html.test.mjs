@@ -160,6 +160,12 @@ for (const alianza of alianzas) {
     assert.match(html, /BENEFICIO EXCLUSIVO PARA EMPRESAS ALIADAS DE TRVELY/);
     assert.match(html, /Tarifas de convenio disponibles/);
     assert.match(html, /SIMULADOR DE CONVENIO/);
+    // Menú de convenios hoteleros e invitación a Coral y Cartagena, dentro del convenio de este contacto.
+    assert.match(html, /CONVENIOS EMPRESARIALES · PRODUCTOS DISPONIBLES/);
+    assert.match(html, /TAMBIÉN EN EL CONVENIO/);
+    for (const ruta of ["coral-costa-caribe/", "cartagena-plaza/", "cartagena-dubai/"]) {
+      assert.ok(html.includes(`href="/alianzas/${alianza.slug}/${ruta}"`), `falta el enlace a ${ruta}`);
+    }
     assert.match(html, /Tu Caribe 2027/);
     assert.match(html, /\$\s*4\.974\.990/);
     assert.match(html, new RegExp(alianza.name));
@@ -183,4 +189,41 @@ for (const alianza of alianzas) {
     assert.match(exported, new RegExp(alianza.name));
     assert.ok(exported.includes(`wa.me/${alianza.phone}`), "el HTML exportado no trae el WhatsApp del contacto");
   });
+}
+
+const productosAlianza = [
+  { ruta: "coral-costa-caribe", titulo: /Coral Costa Caribe 2027 · Trvely Convenios empresariales/, debe: [/\$3\.600\.000/, /\$3\.200\.000/, /SOLO BAJO SOLICITUD/, /CONVENIO EMPRESARIAL · JUAN DOLIO 2027/] },
+  { ruta: "cartagena-plaza", titulo: /Cartagena Plaza · Convenios empresariales/, debe: [/Hotel Cartagena Plaza/, /CONVENIO EMPRESARIAL · CARTAGENA/, /Tu paquete del convenio conserva/, /\$\s*1\.499\.999/] },
+  { ruta: "cartagena-dubai", titulo: /Cartagena Dubai · Convenios empresariales/, debe: [/Hotel Cartagena Dubai/, /CONVENIO EMPRESARIAL · CARTAGENA/, /\$\s*1\.499\.999/] },
+];
+
+for (const alianza of alianzas) {
+  for (const producto of productosAlianza) {
+    test(`publishes ${producto.ruta} inside the business agreement of ${alianza.name}`, async () => {
+      const response = await render(`/alianzas/${alianza.slug}/${producto.ruta}`);
+      assert.equal(response.status, 200);
+      const html = await response.text();
+
+      assert.match(html, producto.titulo);
+      for (const patron of producto.debe) assert.match(html, patron);
+      assert.match(html, new RegExp(`Te atiende ${alianza.name}`));
+      assert.ok(html.includes(alianza.display), `falta el celular visible ${alianza.display}`);
+      assert.ok(html.includes(`wa.me/${alianza.phone}?text=Hola%2C%20${encodeURIComponent(alianza.firstName)}`), "el WhatsApp no saluda al contacto correcto");
+      assert.match(html, /convenios%20empresariales%20de%20Trvely/);
+      assert.match(html, /CONVENIOS EMPRESARIALES · PRODUCTOS DISPONIBLES/);
+      for (const ruta of ["", "coral-costa-caribe/", "cartagena-plaza/", "cartagena-dubai/"]) {
+        assert.ok(html.includes(`href="/alianzas/${alianza.slug}/${ruta}"`), `el menú no enlaza /alianzas/${alianza.slug}/${ruta}`);
+      }
+      assert.match(html, /<meta name="robots" content="noindex, nofollow"/);
+      assert.ok(html.includes(`https://convenios.trvely.com.co/alianzas/${alianza.slug}/${producto.ruta}/`), "falta la URL canónica");
+
+      assert.doesNotMatch(html.replaceAll("/coopercar/_next/", ""), /coopercar/i);
+      for (const phone of otherPhones.filter((phone) => phone !== alianza.phone)) {
+        assert.doesNotMatch(html, new RegExp(phone));
+      }
+
+      const exported = await readFile(new URL(`../dist/client/alianzas/${alianza.slug}/${producto.ruta}/index.html`, import.meta.url), "utf8");
+      assert.ok(exported.includes(`wa.me/${alianza.phone}`), "el HTML exportado no trae el WhatsApp del contacto");
+    });
+  }
 }

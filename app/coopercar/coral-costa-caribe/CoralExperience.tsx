@@ -3,12 +3,12 @@
 import Image from "next/image";
 import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import HotelSwitcher from "../../components/HotelSwitcher";
+import { coopercarBranding, type ConvenioBranding } from "../../components/branding";
 import s from "./coral.module.css";
 
 const PRICE_FOUR_NIGHTS = 3_600_000;
 const PRICE_THREE_NIGHTS = 3_200_000;
 const DEPOSIT_PER_PERSON = 200_000;
-const WHATSAPP = "573233916413";
 
 const departures = [
   { id: "oct-21", day: "21", month: "OCT", range: "21 — 25 octubre", long: "21 al 25 de octubre de 2027", deadline: "21 de septiembre de 2027", deadlineISO: "2027-09-21" },
@@ -43,7 +43,8 @@ function installmentsBetween(startISO: string, endISO: string) {
   return Math.max(1, months);
 }
 
-export default function CoralExperience() {
+export default function CoralExperience({ branding = coopercarBranding }: { branding?: ConvenioBranding }) {
+  const b = branding;
   const [departureId, setDepartureId] = useState<(typeof departures)[number]["id"]>("oct-21");
   const [passengers, setPassengers] = useState(2);
   const [party, setParty] = useState<"adults" | "family">("adults");
@@ -78,23 +79,23 @@ export default function CoralExperience() {
 
   const originLine = origin ? ` Código de origen del convenio: ${origin}.` : "";
   const partyLine = party === "family" ? "Viajo con uno o más menores y compartiré sus edades exactas." : "Todos los viajeros son adultos.";
-  const fourNightMessage = `Hola, equipo Trvely. Me interesa Coral Costa Caribe para viajar del ${selectedDeparture.long}, plan de 4 noches, para ${passengers} persona(s). ${partyLine} Vi la tarifa publicada de ${formatMoney(PRICE_FOUR_NIGHTS)} por persona en acomodación doble y la separación de ${formatMoney(DEPOSIT_PER_PERSON)} por persona. Entiendo que vuelos, categoría de habitación, ocupación y disponibilidad deben confirmarse antes del pago.${originLine}`;
-  const threeNightMessage = `Hola, equipo Trvely. Quiero solicitar al comercial encargado de la alianza el plan especial de 3 noches en Coral Costa Caribe por ${formatMoney(PRICE_THREE_NIGHTS)} por persona. Mi salida preferida es el ${selectedDeparture.long} y viajaríamos ${passengers} persona(s). Entiendo que esta modalidad no se reserva automáticamente y está sujeta a validación de fechas, vuelos, habitación y disponibilidad.${originLine}`;
-  const fourNightWhatsApp = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(fourNightMessage)}`;
-  const threeNightWhatsApp = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(threeNightMessage)}`;
+  const fourNightMessage = `${b.greeting} Me interesa Coral Costa Caribe para viajar del ${selectedDeparture.long}, plan de 4 noches, para ${passengers} persona(s). ${partyLine} Vi la tarifa publicada de ${formatMoney(PRICE_FOUR_NIGHTS)} por persona en acomodación doble y la separación de ${formatMoney(DEPOSIT_PER_PERSON)} por persona. Entiendo que vuelos, categoría de habitación, ocupación y disponibilidad deben confirmarse antes del pago.${originLine}`;
+  const threeNightMessage = `${b.greeting} ${b.requestPhrase} el plan especial de 3 noches en Coral Costa Caribe por ${formatMoney(PRICE_THREE_NIGHTS)} por persona. Mi salida preferida es el ${selectedDeparture.long} y viajaríamos ${passengers} persona(s). Entiendo que esta modalidad no se reserva automáticamente y está sujeta a validación de fechas, vuelos, habitación y disponibilidad.${originLine}`;
+  const fourNightWhatsApp = `https://wa.me/${b.whatsapp}?text=${encodeURIComponent(fourNightMessage)}`;
+  const threeNightWhatsApp = `https://wa.me/${b.whatsapp}?text=${encodeURIComponent(threeNightMessage)}`;
 
   const movePhoto = (direction: number) => setActivePhoto((current) => (current + direction + gallery.length) % gallery.length);
 
   return (
     <main className={s.page} id="inicio">
       <header className={s.header}>
-        <a className={s.brand} href="/coopercar/" aria-label="Volver a Trvely Convenios Coopercar">
+        <a className={s.brand} href={b.basePath} aria-label={b.homeAria}>
           <Image src="/brand/trvely.png" width={300} height={90} alt="Trvely" priority />
           <span />
-          <b>COOPERCAR</b>
+          <b>{b.lockup}</b>
         </a>
         <div className="header-menu-group">
-          <HotelSwitcher current="coral" />
+          <HotelSwitcher current="coral" base={b.basePath} heading={b.switcherHeading} />
           <nav className={s.sectionNav} aria-label="Secciones de Coral Costa Caribe">
             <a href="#salidas">Salidas</a>
             <a href="#experiencia">El hotel</a>
@@ -102,7 +103,7 @@ export default function CoralExperience() {
             <a href="#pagos">Pagos</a>
           </nav>
         </div>
-        <a className={s.headerCta} href={fourNightWhatsApp} target="_blank" rel="noreferrer">Hablar con Trvely</a>
+        <a className={s.headerCta} href={fourNightWhatsApp} target="_blank" rel="noreferrer">{`Hablar con ${b.contactName}`}</a>
       </header>
 
       <section className={s.hero}>
@@ -110,7 +111,7 @@ export default function CoralExperience() {
         <div className={s.heroShade} />
         <div className={s.heroContent}>
           <div className={s.heroCopy}>
-            <span className={s.kicker}>COOPERCAR · JUAN DOLIO 2027</span>
+            <span className={s.kicker}>{`${b.kicker} · JUAN DOLIO 2027`}</span>
             <h1>Un Caribe<br />para <em>quedarte.</em></h1>
             <p>Coral Costa Caribe reúne playa, jardines y plan todo incluido en Juan Dolio. Elige una de cuatro salidas y empieza con una cuota inicial sencilla.</p>
             <div className={s.heroActions}>
@@ -169,7 +170,7 @@ export default function CoralExperience() {
             <h3>{formatMoney(PRICE_THREE_NIGHTS)}</h3>
             <p>Por persona. La salida puede conservarse, pero el regreso, los vuelos, la habitación y la disponibilidad deben ser construidos por el comercial encargado de la alianza.</p>
             <div className={s.requestRule}><strong>No se reserva automáticamente</strong><span>Este precio abre una solicitud; no confirma cupo ni servicios hasta recibir respuesta de Trvely.</span></div>
-            <a href={threeNightWhatsApp} target="_blank" rel="noreferrer">Solicitar al comercial <span>↗</span></a>
+            <a href={threeNightWhatsApp} target="_blank" rel="noreferrer">{`Solicitar ${b.requestTo} `}<span>↗</span></a>
           </article>
         </div>
       </section>
@@ -231,7 +232,7 @@ export default function CoralExperience() {
             <div className={s.monthlyResult}><span>{quote.installments ? `${quote.installments} abonos mensuales` : "Elige una fecha válida"}</span><strong>{quote.installments ? formatMoney(quote.monthly) : "—"}</strong><small>{quote.installments ? `Último abono estimado: ${formatMoney(Math.max(0, quote.last))}` : "El plan debe pagarse antes de la fecha límite"}</small></div>
           </div>
           <div className={s.deadline}><span>PAGO TOTAL A MÁS TARDAR</span><strong>{selectedDeparture.deadline}</strong></div>
-          <a className={s.whatsappButton} href={fourNightWhatsApp} target="_blank" rel="noreferrer">Enviar mi selección a Trvely <span>↗</span></a>
+          <a className={s.whatsappButton} href={fourNightWhatsApp} target="_blank" rel="noreferrer">{`Enviar mi selección a ${b.contactName} `}<span>↗</span></a>
           <p className={s.calcDisclaimer}>Proyección para acomodación doble. Cupos, vuelo, habitación, edades, servicios y valor final están sujetos a validación. Escribir por WhatsApp no confirma la reserva.</p>
         </div>
       </section>
@@ -258,12 +259,12 @@ export default function CoralExperience() {
       </section>
 
       <section className={s.closing}>
-        <div><span>TRIANA Y EL EQUIPO TRVELY ESTÁN LISTOS</span><h2>Tu próximo Caribe<br />puede empezar hoy.</h2><p>Comparte tu fecha, cuántos viajan y si hay menores. El mensaje llegará con el contexto necesario para continuar.</p><a href={fourNightWhatsApp} target="_blank" rel="noreferrer">Hablar con Trvely <b>↗</b></a><small>Atención Trvely · +57 323 391 6413</small></div>
+        <div><span>TRIANA Y EL EQUIPO TRVELY ESTÁN LISTOS</span><h2>Tu próximo Caribe<br />puede empezar hoy.</h2><p>Comparte tu fecha, cuántos viajan y si hay menores. El mensaje llegará con el contexto necesario para continuar.</p><a href={fourNightWhatsApp} target="_blank" rel="noreferrer">{`Hablar con ${b.contactName} `}<b>↗</b></a><small>{b.contactLine}</small></div>
         <Image src="/triana/triana-real-cierre.png" alt="Triana da la bienvenida a Coral Costa Caribe" width={609} height={820} />
       </section>
 
       <footer className={s.footer}>
-        <div className={s.footerBrand}><Image src="/brand/trvely.png" alt="Trvely" width={300} height={90} /><span>×</span><b>COOPERCAR</b></div>
+        <div className={s.footerBrand}><Image src="/brand/trvely.png" alt="Trvely" width={300} height={90} /><span>×</span><b>{b.lockup}</b></div>
         <p>Convenio comercial · Coral Costa Caribe 2027<br />Información sujeta a disponibilidad y condiciones finales.</p>
         <div><a href="https://trvely.com.co/coral-costa-caribe-resort/" target="_blank" rel="noreferrer">Ficha Trvely</a><a href="https://coralcostacaribebeachresort.com/" target="_blank" rel="noreferrer">Hotel oficial</a></div>
       </footer>

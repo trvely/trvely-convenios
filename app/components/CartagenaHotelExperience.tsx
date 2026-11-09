@@ -3,10 +3,10 @@
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import HotelSwitcher from "./HotelSwitcher";
+import { coopercarBranding, type ConvenioBranding } from "./branding";
 import s from "./cartagena-hotel.module.css";
 
 const PRICE = 1_499_999;
-const WHATSAPP = "573233916413";
 
 type Photo = { src: string; alt: string };
 type Room = {
@@ -68,7 +68,8 @@ const safeguards = [
 const formatMoney = (value: number) =>
   new Intl.NumberFormat("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 }).format(value);
 
-export default function CartagenaHotelExperience({ config }: { config: CartagenaHotelConfig }) {
+export default function CartagenaHotelExperience({ config, branding = coopercarBranding }: { config: CartagenaHotelConfig; branding?: ConvenioBranding }) {
+  const b = branding;
   const [activePhoto, setActivePhoto] = useState(0);
   const [lightbox, setLightbox] = useState(false);
   const [travelDate, setTravelDate] = useState("");
@@ -93,9 +94,9 @@ export default function CartagenaHotelExperience({ config }: { config: Cartagena
     const childrenLine = children
       ? `Viajan ${children} menor(es); compartiré sus edades exactas antes de cotizar.`
       : "Por ahora, todos los viajeros son adultos.";
-    const message = `Hola, equipo Trvely. Me interesa el convenio Coopercar para ${config.name}: plan de 3 noches desde ${formatMoney(PRICE)} por persona. ${dateLine} Viajaríamos ${adults} adulto(s) y ${children} menor(es). ${childrenLine} Vi que incluye vuelos ida y regreso desde Bogotá, traslados aeropuerto–hotel–aeropuerto, alojamiento, alimentación todo incluido y tour a Playa Barú. Entiendo que el precio final, los horarios, el equipaje, la habitación, la acomodación y la disponibilidad se confirman antes del pago.`;
-    return `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(message)}`;
-  }, [adults, children, config.name, travelDate]);
+    const message = `${b.greeting} Me interesa el convenio ${b.program} para ${config.name}: plan de 3 noches desde ${formatMoney(PRICE)} por persona. ${dateLine} Viajaríamos ${adults} adulto(s) y ${children} menor(es). ${childrenLine} Vi que incluye vuelos ida y regreso desde Bogotá, traslados aeropuerto–hotel–aeropuerto, alojamiento, alimentación todo incluido y tour a Playa Barú. Entiendo que el precio final, los horarios, el equipaje, la habitación, la acomodación y la disponibilidad se confirman antes del pago.`;
+    return `https://wa.me/${b.whatsapp}?text=${encodeURIComponent(message)}`;
+  }, [adults, b.greeting, b.program, b.whatsapp, children, config.name, travelDate]);
 
   const movePhoto = (direction: number) =>
     setActivePhoto((current) => (current + direction + config.gallery.length) % config.gallery.length);
@@ -103,13 +104,13 @@ export default function CartagenaHotelExperience({ config }: { config: Cartagena
   return (
     <main className={s.page} id="inicio" data-hotel={config.id}>
       <header className={s.header}>
-        <a className={s.brand} href="/coopercar/" aria-label="Volver al convenio Coopercar de Trvely">
+        <a className={s.brand} href={b.basePath} aria-label={b.homeAria}>
           <Image src="/brand/trvely.png" width={300} height={90} alt="Trvely" priority />
           <span />
-          <b>COOPERCAR</b>
+          <b>{b.lockup}</b>
         </a>
         <div className="header-menu-group">
-          <HotelSwitcher current={config.id} />
+          <HotelSwitcher current={config.id} base={b.basePath} heading={b.switcherHeading} />
           <nav className={s.sectionNav} aria-label={`Secciones de ${config.name}`}>
             <a href="#incluye">El plan</a>
             <a href="#hotel">El hotel</a>
@@ -117,7 +118,7 @@ export default function CartagenaHotelExperience({ config }: { config: Cartagena
             <a href="#galeria">Fotos</a>
           </nav>
         </div>
-        <a className={s.headerCta} href={whatsappUrl} target="_blank" rel="noreferrer">Cotizar con Trvely</a>
+        <a className={s.headerCta} href={whatsappUrl} target="_blank" rel="noreferrer">{`Cotizar con ${b.contactName}`}</a>
       </header>
 
       <section className={s.hero}>
@@ -125,7 +126,7 @@ export default function CartagenaHotelExperience({ config }: { config: Cartagena
         <div className={s.heroShade} />
         <div className={s.heroContent}>
           <div className={s.heroCopy}>
-            <span className={s.eyebrow}>CONVENIO COOPERCAR · CARTAGENA</span>
+            <span className={s.eyebrow}>{`${b.label} · CARTAGENA`}</span>
             <h1>{config.heroTitle}<br /><em>{config.heroAccent}</em></h1>
             <p>{config.heroDescription}</p>
             <div className={s.heroActions}>
@@ -193,7 +194,7 @@ export default function CartagenaHotelExperience({ config }: { config: Cartagena
               <div key={highlight.title}><strong>{highlight.title}</strong><span>{highlight.detail}</span></div>
             ))}
           </div>
-          <div className={s.trianaNote}><b>T</b><p><strong>Dato de Triana</strong>{config.storyNote}</p></div>
+          <div className={s.trianaNote}><b>T</b><p><strong>Dato de Triana</strong>{config.storyNote.replace("{paquete}", b.packageLabel)}</p></div>
         </div>
       </section>
 
@@ -256,7 +257,7 @@ export default function CartagenaHotelExperience({ config }: { config: Cartagena
           <Image src="/triana/triana-real-presenta.png" alt="Triana presenta el formulario de cotización" width={2048} height={2048} />
         </div>
         <div className={s.quoteCard}>
-          <div className={s.quoteHeader}><div><small>CONVENIO COOPERCAR</small><h3>Cotiza {config.shortName}</h3></div><span>3 noches</span></div>
+          <div className={s.quoteHeader}><div><small>{b.label}</small><h3>Cotiza {config.shortName}</h3></div><span>3 noches</span></div>
           <label>Fecha preferida<input type="date" value={travelDate} onChange={(event) => setTravelDate(event.target.value)} /><small>Si aún no la tienes, deja el campo vacío y te mostramos opciones.</small></label>
           <div className={s.formRow}>
             <label>Adultos<select value={adults} onChange={(event) => setAdults(Number(event.target.value))}>{[1, 2, 3, 4, 5, 6, 7, 8].map((value) => <option value={value} key={value}>{value}</option>)}</select></label>
@@ -265,7 +266,7 @@ export default function CartagenaHotelExperience({ config }: { config: Cartagena
           {children > 0 && <p className={s.childrenNotice}>El asesor te pedirá las edades exactas de los menores para validar tiquetes, ocupación y tarifa.</p>}
           <div className={s.quotePrice}><div><small>PRECIO PUBLICADO DESDE</small><strong>{formatMoney(PRICE)}</strong><span>por persona</span></div><p>Valor final<br />bajo cotización</p></div>
           <ul className={s.quoteSummary}><li>Vuelos desde Bogotá</li><li>Traslados</li><li>3 noches todo incluido</li><li>Tour a Playa Barú</li></ul>
-          <a className={s.whatsappButton} href={whatsappUrl} target="_blank" rel="noreferrer">Enviar mi solicitud a Trvely <span>↗</span></a>
+          <a className={s.whatsappButton} href={whatsappUrl} target="_blank" rel="noreferrer">{`Enviar mi solicitud a ${b.contactName} `}<span>↗</span></a>
           <p className={s.quoteDisclaimer}>WhatsApp inicia la asesoría. No confirma cupo, tarifa, vuelo, habitación ni servicios hasta recibir la validación escrita de Trvely.</p>
         </div>
       </section>
@@ -289,12 +290,12 @@ export default function CartagenaHotelExperience({ config }: { config: Cartagena
       </section>
 
       <section className={s.closing}>
-        <div><span>TRIANA Y EL EQUIPO TRVELY TE ACOMPAÑAN</span><h2>Tu Cartagena<br />empieza con una fecha.</h2><p>Cuéntanos cuándo quieres viajar y quiénes te acompañan. Nosotros confirmamos la mejor opción disponible sin dejar cabos sueltos.</p><a href={whatsappUrl} target="_blank" rel="noreferrer">Cotizar por WhatsApp <b>↗</b></a><small>Atención Trvely · +57 323 391 6413</small></div>
+        <div><span>TRIANA Y EL EQUIPO TRVELY TE ACOMPAÑAN</span><h2>Tu Cartagena<br />empieza con una fecha.</h2><p>Cuéntanos cuándo quieres viajar y quiénes te acompañan. Nosotros confirmamos la mejor opción disponible sin dejar cabos sueltos.</p><a href={whatsappUrl} target="_blank" rel="noreferrer">Cotizar por WhatsApp <b>↗</b></a><small>{b.contactLine}</small></div>
         <Image src="/triana/triana-real-cierre.png" alt={`Triana te invita a conocer ${config.name}`} width={609} height={820} />
       </section>
 
       <footer className={s.footer}>
-        <div className={s.footerBrand}><Image src="/brand/trvely.png" alt="Trvely" width={300} height={90} /><span>×</span><b>COOPERCAR</b></div>
+        <div className={s.footerBrand}><Image src="/brand/trvely.png" alt="Trvely" width={300} height={90} /><span>×</span><b>{b.lockup}</b></div>
         <p>Convenio comercial · {config.name}<br />Información y precios sujetos a disponibilidad y confirmación final.</p>
         <div><a href={config.officialRoomsUrl} target="_blank" rel="noreferrer">Habitaciones oficiales</a><a href={config.officialUrl} target="_blank" rel="noreferrer">Sitio del hotel</a></div>
       </footer>
@@ -309,7 +310,7 @@ export default function CartagenaHotelExperience({ config }: { config: Cartagena
         </div>
       )}
 
-      <a className={s.stickyWhatsapp} href={whatsappUrl} target="_blank" rel="noreferrer" aria-label={`Cotizar ${config.name} por WhatsApp`}><span>●</span><div><small>CONVENIO COOPERCAR</small>Cotizar {config.shortName}</div><b>↗</b></a>
+      <a className={s.stickyWhatsapp} href={whatsappUrl} target="_blank" rel="noreferrer" aria-label={`Cotizar ${config.name} por WhatsApp`}><span>●</span><div><small>{b.label}</small>Cotizar {config.shortName}</div><b>↗</b></a>
     </main>
   );
 }
