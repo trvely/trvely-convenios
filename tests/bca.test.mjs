@@ -210,3 +210,12 @@ describe("contenido", () => {
     );
   });
 });
+
+describe("ajustes de contenido", () => {
+  it("destino sin casino ni discoteca y texto corto sin enlace", () => {
+    assert.doesNotMatch(JSON.stringify(DATOS.destino), /casino|discoteca/i);
+    assert.ok(DATOS.destino.texto.startsWith("Un resort familiar grande en Punta Cana"));
+    assert.doesNotMatch(DATOS.condiciones.corto, /Ver condiciones completas/);
+    assert.ok(DATOS.condiciones.corto.endsWith("saldo a favor por 12 meses."));
+  });
+});

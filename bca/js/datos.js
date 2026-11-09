@@ -452,7 +452,7 @@ export const DATOS = {
     "hotel": "Catalonia Bávaro Beach",
     "lugar": "Cabeza de Toro · Punta Cana",
     "hero": "https://media.trvely.com.co/hoteles/punta-cana/catalonia-bavaro-beach/hero/catalonia-bavaro-beach_hero.jpg",
-    "texto": "Un resort familiar grande en Punta Cana: 682 suites en villas alrededor de un lago, con Kids Club y Teens Club y una piscina infantil con juegos. Tiene casino, teatro al aire libre y discoteca dentro del hotel (casino y discoteca, solo mayores de 18 años). Queda a unos 20 minutos del aeropuerto de Punta Cana. La tarifa, las fechas y lo que incluye el paquete los informamos más adelante.",
+    "texto": "Un resort familiar grande en Punta Cana: 682 suites en villas alrededor de un lago, con Kids Club y Teens Club y una piscina infantil con juegos. Queda a unos 20 minutos del aeropuerto de Punta Cana. La tarifa, las fechas y lo que incluye el paquete los informamos más adelante.",
     "fotos": [
       "https://media.trvely.com.co/hoteles/punta-cana/catalonia-bavaro-beach/full/catalonia-bavaro-beach_002.jpg",
       "https://media.trvely.com.co/hoteles/punta-cana/catalonia-bavaro-beach/full/catalonia-bavaro-beach_005.jpg",
@@ -534,7 +534,7 @@ export const DATOS = {
       "Protección de niñas, niños y adolescentes. Trvely rechaza toda forma de explotación y abuso sexual de niñas, niños y adolescentes y cumple la Ley 679 de 2001 y la Ley 1336 de 2009. Estas conductas son sancionadas penal y administrativamente en Colombia.",
       "Contacto y reclamos. Servicio al cliente, Bogotá: +57 321 257 7272 · go@trvely.com.co."
     ],
-    "corto": "Acepto las condiciones de la separación: $200.000 por persona desde los 2 años, que se abonan al paquete. No se devuelve en dinero, salvo retracto dentro de 5 días hábiles o cancelación del viaje por parte de Trvely. Si no viajo, puedo ceder mi cupo o dejarlo como saldo a favor por 12 meses. Ver condiciones completas."
+    "corto": "Acepto las condiciones de la separación: $200.000 por persona desde los 2 años, que se abonan al paquete. No se devuelve en dinero, salvo retracto dentro de 5 días hábiles o cancelación del viaje por parte de Trvely. Si no viajo, puedo ceder mi cupo o dejarlo como saldo a favor por 12 meses."
   },
   "equipos": [
     "Stars",
