@@ -449,73 +449,89 @@ export const DATOS = {
     "despues": null
   },
   "destino": {
-    "hotel": "Catalonia Bávaro Beach",
-    "lugar": "Cabeza de Toro · Punta Cana",
-    "hero": "https://media.trvely.com.co/hoteles/punta-cana/catalonia-bavaro-beach/hero/catalonia-bavaro-beach_hero.jpg",
-    "texto": "Un resort familiar grande en Punta Cana: 682 suites en villas alrededor de un lago, con Kids Club y Teens Club y una piscina infantil con juegos. Queda a unos 20 minutos del aeropuerto de Punta Cana. La tarifa, las fechas y lo que incluye el paquete los informamos más adelante.",
+    "hotel": "Barceló Bávaro Palace",
+    "lugar": "Playa Bávaro · Punta Cana",
+    "hero": "https://media.trvely.com.co/hoteles/punta-cana/barcelo-bavaro-palace/hero/barcelo-bavaro-palace_hero.jpg",
+    "texto": "Un resort familiar grande en Punta Cana, en Playa Bávaro: dos parques acuáticos, piscina infantil y animación de día y de noche para niños y adultos. Un tren interno, sin costo, lleva a los huéspedes de un lado a otro del hotel.",
     "fotos": [
       {
-        "src": "https://media.trvely.com.co/hoteles/punta-cana/catalonia-bavaro-beach/full/catalonia-bavaro-beach_002.jpg",
-        "alt": "Familia jugando en la arena blanca de la playa del hotel, con palmeras al fondo"
+        "src": "https://media.trvely.com.co/hoteles/punta-cana/barcelo-bavaro-palace/full/barcelo-bavaro-palace_001.jpg",
+        "alt": "Mamá, papá y dos niñas hacen castillos de arena en la playa del hotel, frente al mar"
       },
       {
-        "src": "https://media.trvely.com.co/hoteles/punta-cana/catalonia-bavaro-beach/full/catalonia-bavaro-beach_005.jpg",
-        "alt": "Jóvenes y el equipo de animación celebran una partida de futbolín en la sala de juegos"
+        "src": "https://media.trvely.com.co/hoteles/punta-cana/barcelo-bavaro-palace/full/barcelo-bavaro-palace_002.jpg",
+        "alt": "Niña con sombrero de paja junto al parque acuático del hotel, con toboganes y palmeras"
       },
       {
-        "src": "https://media.trvely.com.co/hoteles/punta-cana/catalonia-bavaro-beach/full/catalonia-bavaro-beach_006.jpg",
-        "alt": "Parque infantil cercado, con casitas de juego y toldo, entre las palmeras del hotel"
+        "src": "https://media.trvely.com.co/hoteles/punta-cana/barcelo-bavaro-palace/full/barcelo-bavaro-palace_003.jpg",
+        "alt": "Niña feliz dentro de una piscina de pelotas de colores en la zona infantil"
       },
       {
-        "src": "https://media.trvely.com.co/hoteles/punta-cana/catalonia-bavaro-beach/full/catalonia-bavaro-beach_012.jpg",
-        "alt": "Familia sentada en el borde de la piscina, salpicando agua, frente a las villas del hotel"
+        "src": "https://media.trvely.com.co/hoteles/punta-cana/barcelo-bavaro-palace/full/barcelo-bavaro-palace_004.jpg",
+        "alt": "Dos niños en flotadores de colores se dan la mano en el agua azul de la piscina"
       },
       {
-        "src": "https://media.trvely.com.co/hoteles/punta-cana/catalonia-bavaro-beach/full/catalonia-bavaro-beach_014.jpg",
-        "alt": "Grupo haciendo estiramientos en la playa del hotel, frente al mar"
+        "src": "https://media.trvely.com.co/hoteles/punta-cana/barcelo-bavaro-palace/full/barcelo-bavaro-palace_005.jpg",
+        "alt": "Una niña celebra con su papá en la pista de bolos de la sala de juegos del hotel"
       },
       {
-        "src": "https://media.trvely.com.co/hoteles/punta-cana/catalonia-bavaro-beach/full/catalonia-bavaro-beach_023.jpg",
-        "alt": "Baño de una habitación del hotel, con dos lavamanos y duchas separadas"
+        "src": "https://media.trvely.com.co/hoteles/punta-cana/barcelo-bavaro-palace/full/barcelo-bavaro-palace_006.jpg",
+        "alt": "Playa de arena blanca con palmeras altas y asoleadoras frente al mar turquesa"
       },
       {
-        "src": "https://media.trvely.com.co/hoteles/punta-cana/catalonia-bavaro-beach/full/catalonia-bavaro-beach_043.jpg",
-        "alt": "Zona de juegos para niños sobre la arena, con toldos, murales de colores y mesas pequeñas"
+        "src": "https://media.trvely.com.co/hoteles/punta-cana/barcelo-bavaro-palace/full/barcelo-bavaro-palace_007.jpg",
+        "alt": "Familia descansando en una habitación familiar del hotel, con cama grande y sofá"
       },
       {
-        "src": "https://media.trvely.com.co/hoteles/punta-cana/catalonia-bavaro-beach/full/catalonia-bavaro-beach_046.jpg",
-        "alt": "Dos niños corren de la mano por la playa del hotel, junto a las palmeras"
+        "src": "https://media.trvely.com.co/hoteles/punta-cana/barcelo-bavaro-palace/full/barcelo-bavaro-palace_008.jpg",
+        "alt": "Pareja servida por un mesero en la terraza de un restaurante con vista a las palmeras y el mar"
       }
     ],
     "incluye": [
-      "Dos buffets: Gran Caribe y La Palapa, junto a la playa",
-      "Cuatro restaurantes a la carta, pizzería, crepería y cafetería",
-      "Kids Club y Teens Club con actividades programadas",
-      "Dos piscinas, una de ellas infantil con juegos",
-      "Snorkel, kayak y catamarán, sin motor",
-      "Tenis, fútbol, vóley, tiro con arco, clases de baile y talleres de pintura",
-      "Teatro al aire libre",
-      "Gimnasio 24 horas y wifi"
+      "Dos parques acuáticos temáticos",
+      "Cuatro piscinas: una infantil, una semiolímpica y una solo para adultos",
+      "Animación de día y de noche para niños y adultos",
+      "Zonas para niños y para adolescentes",
+      "Esnórquel, kayak y windsurf",
+      "Fútbol y béisbol",
+      "Teatro con espectáculos, para 1.400 personas",
+      "Tren interno sin costo y wifi"
     ]
   },
-  "producto": [
-    {
-      "titulo": "Tarifa",
-      "texto": null
-    },
-    {
-      "titulo": "Fechas",
-      "texto": null
-    },
-    {
-      "titulo": "Plan de pagos",
-      "texto": null
-    },
-    {
-      "titulo": "Qué incluye el paquete",
-      "texto": null
-    }
-  ],
+  "paquete": {
+    "intro": "Precios por persona en habitación triple, para 2 adultos y 1 niño. Si viajan más o menos personas en la habitación, te cotizamos.",
+    "grupos": [
+      {
+        "titulo": "Con vuelo desde Bogotá",
+        "nota": "Vuelo Bogotá–Santo Domingo, ida en la mañana y regreso en la tarde, y traslado privado por carretera hasta el hotel (unas 3 horas).",
+        "planes": [
+          { "noches": 3, "fechas": "Del 1 al 4 de octubre de 2027", "precio": 4267990, "cuotas": 10 },
+          { "noches": 4, "fechas": "Del 30 de septiembre al 4 de octubre de 2027", "precio": 4821990, "cuotas": 9 },
+          { "noches": 5, "fechas": "Del 1 al 6 de octubre de 2027", "precio": 5297990, "cuotas": 10 }
+        ]
+      },
+      {
+        "titulo": "Solo hotel",
+        "nota": "Llegas por tu cuenta al aeropuerto de Punta Cana y desde ahí tienes traslado privado al hotel.",
+        "planes": [
+          { "noches": 3, "fechas": "Del 1 al 4 de octubre de 2027", "precio": 2446990, "cuotas": 10 },
+          { "noches": 4, "fechas": "Del 30 de septiembre al 4 de octubre de 2027", "precio": 2992990, "cuotas": 9 }
+        ]
+      }
+    ],
+    "incluye": [
+      "Tiquete Bogotá–Santo Domingo, ida en la mañana y regreso en la tarde (solo en los planes con vuelo). Los horarios pueden cambiar por decisión de la aerolínea o de la Aeronáutica Civil.",
+      "Equipaje de mano: un artículo personal tipo morral, que quepa debajo de la silla. La silla en el avión se asigna al azar.",
+      "Traslados privados del aeropuerto al hotel y del hotel al aeropuerto",
+      "Todo incluido en el hotel: desayuno, almuerzo y cena tipo buffet. Llegas con la cena y te vas con el almuerzo",
+      "Bebidas y licores nacionales en los horarios del hotel, y snack en la tarde",
+      "Asistencia médica de viaje",
+      "Uniforme de entrenamiento, moño de competencia y tenis o maleta deportiva personalizados",
+      "Entrada al hotel desde las 3 de la tarde y salida hasta el mediodía"
+    ],
+    "noIncluye": "Lo que no aparece en esta lista.",
+    "pagos": "Sin cuota inicial: pagas en cuotas mensuales y el viaje debe quedar pago a más tardar 30 días antes de salir. Los $200.000 de la separación se abonan al paquete."
+  },
   "pasos": [
     {
       "titulo": "Llenas el formulario",
@@ -543,8 +559,8 @@ export const DATOS = {
   "condiciones": {
     "completo": [
       "Quiénes. TRVELY S.A.S., NIT 901.902.687-9, RNT 232640, agencia de viajes y turismo («Trvely»), y el adulto responsable que llena el formulario («el comprador»), identificado con los datos que registra y con su número de referencia BCA27-XXXX.",
-      "Qué se separa. Uno o más cupos en el viaje grupal de la familia BCA All Stars a República Dominicana en 2027, con alojamiento previsto en el hotel Catalonia Bávaro Beach (Punta Cana), para acompañar la competencia que se anunciará. La separación aparta tu cupo y le permite a Trvely asegurar las sillas del grupo en el avión.",
-      "Lo que todavía no está definido. Las fechas, la tarifa, la aerolínea, la categoría de habitación y el plan de pagos. Trvely los informará por escrito antes de firmar el contrato de compraventa de servicios turísticos, que es el documento que regula el viaje. Esta separación no reemplaza ese contrato.",
+      "Qué se separa. Uno o más cupos en el viaje grupal de la familia BCA All Stars a República Dominicana en 2027, con alojamiento en el hotel Barceló Bávaro Palace (Punta Cana) entre el 30 de septiembre y el 6 de octubre de 2027, según el plan que elijas, para acompañar la competencia que se anunciará. La separación aparta tu cupo y le permite a Trvely asegurar las sillas del grupo en el avión y las habitaciones en el hotel.",
+      "Planes y precios. Los precios publicados en esta página son por persona, en habitación triple para 2 adultos y 1 niño; para otra combinación de personas, Trvely te cotiza. Están sujetos a la disponibilidad de sillas y habitaciones al momento de firmar el contrato de compraventa de servicios turísticos, que es el documento que regula el viaje. La aerolínea y los horarios exactos de los vuelos se informarán por escrito antes de esa firma. Esta separación no reemplaza ese contrato.",
       "Valor. $200.000 por cada persona que viaja desde los 2 años de edad. Los infantes (quienes no han cumplido 2 años a la fecha de regreso del viaje) no pagan separación; sí se registran en el formulario para tenerlos en cuenta en el grupo.",
       "Cómo se paga. Solo por los medios autorizados de Trvely: Llave Bre-B 0081973919 (Bancolombia, a nombre de Trvely S.A.S.). PSE y cuentas oficiales publicadas en trvely.com.co/medios-de-pago. Trvely no responde por pagos hechos por otros medios, a cuentas personales, ni por dinero en efectivo entregado a asesores. Envía tu comprobante por WhatsApp al 322 358 4982 (Paola, equipo Trvely), indicando tu número de referencia.",
       "Cuándo queda en firme. Cuando Trvely verifica tu pago y te confirma el cupo por escrito (WhatsApp o correo), citando tu número de referencia.",
@@ -591,8 +607,8 @@ export const DATOS = {
       "respuesta": "Cuando Trvely verifica tu pago y te confirma el cupo por escrito (WhatsApp o correo), citando tu número de referencia."
     },
     {
-      "pregunta": "¿Ya están definidas las fechas y la tarifa?",
-      "respuesta": "Todavía no. Las fechas, la tarifa, la aerolínea, la categoría de habitación y el plan de pagos están por confirmar. Trvely los informará por escrito antes de firmar el contrato de compraventa de servicios turísticos, que es el documento que regula el viaje. Esta separación no reemplaza ese contrato."
+      "pregunta": "¿Ya están definidas las fechas y los precios?",
+      "respuesta": "Sí. Hay tres planes con vuelo desde Bogotá (3, 4 y 5 noches) y dos de solo hotel (3 y 4 noches), entre el 30 de septiembre y el 6 de octubre de 2027, en el hotel Barceló Bávaro Palace. Los precios son por persona en habitación triple, para 2 adultos y 1 niño, y los ves en la sección del hotel. Falta confirmar la aerolínea y los horarios exactos de los vuelos: Trvely los informará por escrito antes de firmar el contrato de compraventa de servicios turísticos, que es el documento que regula el viaje."
     },
     {
       "pregunta": "¿Qué pasa con lo que pago?",

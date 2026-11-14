@@ -4,7 +4,7 @@
 import { DATOS } from "./datos.js";
 import {
   VALOR_PERSONA, ahoraServidor, fase, restante, valor, pesos, mensajeWhatsApp, enlaceWhatsApp, overrides,
-  senalLimite, ahorroDatos, cuerpoCancun,
+  senalLimite, ahorroDatos, cuerpoCancun, cuota,
 } from "./logica.js";
 
 const ov = overrides(window.location);
@@ -183,6 +183,27 @@ function lineasConCifras(texto) {
   return texto.split("\n").map((linea) => el("p", {}, linea.split(CIFRA).map((parte, i) => (i % 2 ? el("strong", { class: "cifra", text: parte }) : parte))));
 }
 
+/** El paquete 2027: los planes por grupo (con vuelo / solo hotel), qué incluye y el plan de pagos. */
+function paquete(p) {
+  const plan = (x) => el("li", { class: "plan" },
+    el("p", { class: "plan-noches", text: `${x.noches} noches · ${x.noches + 1} días` }),
+    el("p", { class: "plan-fechas", text: x.fechas }),
+    el("p", { class: "plan-precio" }, el("strong", { text: pesos(x.precio) }), el("span", { text: " por persona" })),
+    el("p", { class: "plan-cuotas", text: `En ${x.cuotas} cuotas de ${pesos(cuota(x.precio, x.cuotas))}` }));
+  return el("div", { class: "producto" },
+    el("h3", { text: "Tu paquete 2027" }),
+    el("p", { class: "producto-intro", text: p.intro }),
+    p.grupos.map((g, i) => el("section", { class: "planes", "aria-labelledby": `planes-${i}` },
+      el("h4", { id: `planes-${i}`, text: g.titulo }),
+      el("p", { class: "planes-nota", text: g.nota }),
+      el("ul", { class: "planes-lista" }, g.planes.map(plan)))),
+    el("h4", { text: "Qué incluye" }),
+    el("ul", { class: "hotel-lista" }, p.incluye.map((x) => el("li", { text: x }))),
+    el("p", { class: "producto-nota" }, el("strong", { text: "No incluye: " }), p.noIncluye),
+    el("h4", { text: "Plan de pagos" }),
+    el("p", { class: "producto-nota", text: p.pagos }));
+}
+
 function pintarContenido() {
   const portada = MEDIA[DATOS.portada.medio];
   const [uno, ...resto] = DATOS.portada.titulo.split(" · ");
@@ -231,11 +252,7 @@ function pintarContenido() {
     galeria(fotosHotel, `Fotos del hotel ${d.hotel}`),
     el("h3", { text: "En el hotel" }),
     el("ul", { class: "hotel-lista" }, d.incluye.map((x) => el("li", { text: x }))),
-    el("div", { class: "producto" },
-      el("h3", { text: "Tu paquete 2027" }),
-      el("p", { class: "producto-intro", text: "Lo publicamos aquí apenas esté definido." }),
-      el("dl", {}, DATOS.producto.map((p) => el("div", {}, el("dt", { text: p.titulo }),
-        el("dd", { class: p.texto ? null : "pendiente", text: p.texto || "Próximamente" }))))),
+    paquete(DATOS.paquete),
   );
 
   // Separar, condiciones, preguntas y pie

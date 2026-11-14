@@ -15,6 +15,7 @@ import {
   senalLimite,
   ahorroDatos,
   cuerpoCancun,
+  cuota,
 } from "../bca/js/logica.js";
 
 /** Forma de DATOS.cancun.despues cuando llegan las fotos del viaje (14–17 dic). Devuelve la lista de problemas. */
@@ -79,6 +80,16 @@ describe("lógica", () => {
     assert.equal(valor(2, 1), 600000);
     assert.equal(pesos(600000), "$ 600.000");
     assert.equal(pesos(200000), "$ 200.000");
+  });
+
+  it("cuota: precio entre cuotas, redondeado al peso; 0 si los datos no sirven", () => {
+    assert.equal(cuota(4267990, 10), 426799);
+    assert.equal(cuota(4821990, 9), 535777); // 535.776,67 → como el PDF (1.607.330 / 3)
+    assert.equal(cuota(2992990, 9), 332554);
+    assert.equal(cuota("2446990", "10"), 244699);
+    assert.equal(cuota(100, 0), 0);
+    assert.equal(cuota(100, 2.5), 0);
+    assert.equal(cuota("x", 10), 0);
   });
 
   it("valor acepta texto del formulario", () => {
@@ -242,26 +253,43 @@ describe("contenido", () => {
     }
   });
 
-  it("Cancún, producto y pasos", () => {
+  it("Cancún y pasos", () => {
     assert.equal(
       DATOS.cancun.antes.texto,
       "Del 6 al 13 de diciembre Trvely viaja a Cancún con más de 76 personas del porrismo bogotano, entre ellas la familia BCA. Muy pronto, las fotos.",
     );
     assert.equal(DATOS.cancun.despues, null);
-    assert.deepEqual(
-      DATOS.producto.map((p) => [p.titulo, p.texto]),
-      [["Tarifa", null], ["Fechas", null], ["Plan de pagos", null], ["Qué incluye el paquete", null]],
-    );
     assert.equal(DATOS.pasos.length, 3);
   });
 
+  it("paquete Barceló: los 5 planes de las cotizaciones XT_RS_28328 a 28332 (13-nov), con precio público por persona", () => {
+    assert.equal(DATOS.producto, undefined, "el bloque viejo «producto» (Próximamente) ya no existe");
+    const { paquete: p } = DATOS;
+    assert.deepEqual(p.grupos.map((g) => g.titulo), ["Con vuelo desde Bogotá", "Solo hotel"]);
+    assert.deepEqual(
+      p.grupos.map((g) => g.planes.map((x) => [x.noches, x.precio, x.cuotas])),
+      [
+        [[3, 4267990, 10], [4, 4821990, 9], [5, 5297990, 10]],
+        [[3, 2446990, 10], [4, 2992990, 9]],
+      ],
+    );
+    for (const g of p.grupos) {
+      assert.ok(g.nota.trim());
+      for (const x of g.planes) assert.match(x.fechas, /^Del \d{1,2} (de septiembre )?al \d de octubre de 2027$/);
+    }
+    assert.match(p.grupos[0].nota, /Santo Domingo/, "Jonathan, 13-nov: el vuelo llega a Santo Domingo");
+    assert.match(p.grupos[1].nota, /Punta Cana/);
+    assert.match(p.intro, /2 adultos y 1 niño/);
+    assert.ok(p.incluye.length >= 6 && p.noIncluye.trim() && p.pagos.includes("$200.000"));
+  });
+
   it("destino con 8 fotos del hotel, cada una { src, alt } con un alt que la describe", () => {
-    assert.equal(DATOS.destino.hotel, "Catalonia Bávaro Beach");
+    assert.equal(DATOS.destino.hotel, "Barceló Bávaro Palace");
     assert.equal(DATOS.destino.fotos.length, 8);
     const alts = new Set();
     for (const f of DATOS.destino.fotos) {
       assert.deepEqual(Object.keys(f).sort(), ["alt", "src"]);
-      assert.match(f.src, /^https:\/\/media\.trvely\.com\.co\/hoteles\/punta-cana\/catalonia-bavaro-beach\/full\/catalonia-bavaro-beach_\d{3}\.jpg$/);
+      assert.match(f.src, /^https:\/\/media\.trvely\.com\.co\/hoteles\/punta-cana\/barcelo-bavaro-palace\/full\/barcelo-bavaro-palace_\d{3}\.jpg$/);
       assert.ok(f.alt.trim().length >= 25, `alt corto: ${f.alt}`);
       assert.doesNotMatch(f.alt, /foto \d+ de \d+/i, "alt genérico");
       alts.add(f.alt);
@@ -301,6 +329,8 @@ describe("contenido", () => {
 describe("ajustes de contenido", () => {
   it("destino sin casino ni discoteca y texto corto sin enlace", () => {
     assert.doesNotMatch(JSON.stringify(DATOS.destino), /casino|discoteca/i);
+    assert.doesNotMatch(JSON.stringify(DATOS.paquete), /casino|discoteca/i);
+    assert.doesNotMatch(JSON.stringify(DATOS), /Catalonia/, "el hotel ahora es el Barceló Bávaro Palace (13-nov)");
     assert.ok(DATOS.destino.texto.startsWith("Un resort familiar grande en Punta Cana"));
     assert.doesNotMatch(DATOS.condiciones.corto, /Ver condiciones completas/);
     assert.ok(DATOS.condiciones.corto.endsWith("saldo a favor por 12 meses."));

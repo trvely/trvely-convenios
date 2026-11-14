@@ -381,21 +381,34 @@ a { color: inherit; text-underline-offset: 0.18em; }
   border-top: 1px solid rgba(25, 26, 30, 0.2);
 }
 .hotel-lista li { padding: 0.75rem 0; border-bottom: 1px solid rgba(25, 26, 30, 0.2); }
-.producto { margin-top: 3.5rem; max-width: 46rem; }
-.producto-intro { margin-top: 0.5rem; color: var(--gris-trvely); }
-.producto dl { margin-top: 1.25rem; border-top: 2px solid var(--tinta); }
-.producto dl div {
-  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.25rem 1.5rem;
-  padding: 1rem 0; border-bottom: 1px solid rgba(25, 26, 30, 0.2);
+.producto { margin-top: 3.5rem; }
+.producto-intro { margin-top: 0.5rem; max-width: 40rem; color: var(--gris-trvely); }
+.producto h4 { font-weight: 900; font-size: 1.25rem; line-height: 1.2; margin-top: 2.25rem; }
+.producto-nota { margin-top: 1rem; max-width: 46rem; }
+.planes-nota { margin-top: 0.4rem; max-width: 40rem; color: var(--gris-trvely); }
+.planes-lista {
+  margin-top: 1rem; list-style: none;
+  display: grid; gap: 0.875rem;
 }
-.producto dt { font-weight: 600; font-size: 1.125rem; }
-.producto dd { color: var(--gris-trvely); }
-.producto dd.pendiente { font-style: italic; }
+.plan {
+  padding: 1.25rem 1.25rem 1.125rem;
+  background: var(--papel);
+  border: 1px solid rgba(25, 26, 30, 0.15);
+  border-top: 4px solid var(--burgundy);
+  border-radius: var(--redondo);
+}
+.plan-noches { font-weight: 900; font-size: 1.25rem; }
+.plan-fechas { margin-top: 0.25rem; color: var(--gris-trvely); }
+.plan-precio { margin-top: 0.875rem; }
+.plan-precio strong { display: block; color: var(--burgundy); font-weight: 900; font-size: 1.75rem; line-height: 1.1; letter-spacing: -0.01em; }
+.plan-precio span { color: var(--gris-trvely); font-size: 0.9375rem; }
+.plan-cuotas { margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(25, 26, 30, 0.12); font-weight: 500; }
 
 @media (min-width: 900px) {
   .destino { padding-block: 5rem 6rem; }
   .destino-hero { margin-inline: 0; border-radius: var(--redondo); overflow: hidden; aspect-ratio: 16 / 8; }
   .hotel-lista { grid-template-columns: 1fr 1fr; column-gap: 3rem; }
+  .planes-lista { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
   .destino .miniatura { height: 12rem; }
 }
 

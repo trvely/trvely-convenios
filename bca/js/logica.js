@@ -39,6 +39,13 @@ export function pesos(n) {
   return "$ " + new Intl.NumberFormat("es-CO").format(n);
 }
 
+// Valor de cada cuota mensual de un plan, redondeado al peso (como en la cotización en PDF).
+export function cuota(precio, cuotas) {
+  const p = Number(precio);
+  const c = Number(cuotas);
+  return Number.isFinite(p) && Number.isInteger(c) && c > 0 ? Math.round(p / c) : 0;
+}
+
 export function mensajeWhatsApp({ referencia, nombre, equipo, adultos, ninos, infantes, valor: monto }) {
   let texto =
     `Hola, equipo Trvely. Soy ${nombre}, de la familia BCA (${equipo}). ` +
